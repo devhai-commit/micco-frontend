@@ -7,11 +7,9 @@ import {
 import { useAuth } from '../context/AuthContext';
 import StatCard from '../components/admin/StatCard';
 import UserModal from '../components/admin/UserModal';
-import UsersTable from '../components/admin/UsersTable';
+import UsersTable, { PAGE_SIZE } from '../components/admin/UsersTable';
 import ConfirmDeleteModal from '../components/shared/ConfirmDeleteModal';
 import Breadcrumb from '../components/shared/Breadcrumb';
-
-const PAGE_SIZE = 10;
 
 // ── Main ───────────────────────────────────────────────────────────────────────
 export default function Admin() {

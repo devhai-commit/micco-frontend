@@ -32,7 +32,7 @@ const ROLE_COLORS = {
     Viewer: 'bg-slate-100 text-slate-700 dark:bg-slate-700 dark:text-slate-300',
     Member: 'bg-slate-100 text-slate-700 dark:bg-slate-700 dark:text-slate-300',
 };
-const PAGE_SIZE = 10;
+export const PAGE_SIZE = 10;
 
 // ── Component ──────────────────────────────────────────────────────────────────
 export default function UsersTable({
