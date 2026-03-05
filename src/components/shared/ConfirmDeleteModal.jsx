@@ -5,6 +5,15 @@ import { Trash2 } from 'lucide-react';
 export default function ConfirmDeleteModal({ title, description, onClose, onConfirm }) {
     const [deleting, setDeleting] = useState(false);
 
+    const handleConfirm = async () => {
+        setDeleting(true);
+        try {
+            await onConfirm();
+        } finally {
+            setDeleting(false);
+        }
+    };
+
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center">
             <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={onClose} />
@@ -21,12 +30,13 @@ export default function ConfirmDeleteModal({ title, description, onClose, onConf
                 <div className="flex gap-3">
                     <button
                         onClick={onClose}
-                        className="flex-1 py-2.5 rounded-lg border border-slate-200 dark:border-slate-700 text-sm font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors"
+                        disabled={deleting}
+                        className="flex-1 py-2.5 rounded-lg border border-slate-200 dark:border-slate-700 text-sm font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
                     >
                         Cancel
                     </button>
                     <button
-                        onClick={async () => { setDeleting(true); await onConfirm(); setDeleting(false); }}
+                        onClick={handleConfirm}
                         disabled={deleting}
                         className="flex-1 py-2.5 rounded-lg bg-red-500 hover:bg-red-600 text-white text-sm font-semibold transition-colors disabled:opacity-60 flex items-center justify-center gap-2"
                     >
