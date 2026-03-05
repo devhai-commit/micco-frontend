@@ -114,6 +114,9 @@ export default function DocumentView() {
     return (
         // Break out of layout padding for full-bleed layout
         <div className="-mx-4 lg:-mx-8 -mt-4 lg:-mt-8 flex flex-col" style={{ height: 'calc(100vh - 4rem)' }}>
+            <div className="px-8 pt-3">
+                <Breadcrumb items={[{ label: 'Dashboard', href: '/dashboard' }, { label: 'Documents', href: '/documents' }, { label: doc?.name || '…' }]} />
+            </div>
 
             <DocumentActionBar
                 doc={doc}
