@@ -1,8 +1,6 @@
 // src/components/document-view/DocumentActionBar.jsx
 import { Download, Share2, ExternalLink, Trash2, File } from 'lucide-react';
 import { fileTypeIconMap, fileTypeColors } from '../documents/fileTypes';
-import Breadcrumb from '../shared/Breadcrumb';
-
 export default function DocumentActionBar({ doc, catLabel, ext, previewUrl, onDownload, onShareClick, onDeleteClick }) {
     const Icon = fileTypeIconMap[ext] || File;
     const iconColor = fileTypeColors[ext] || 'text-slate-400';
@@ -10,11 +8,6 @@ export default function DocumentActionBar({ doc, catLabel, ext, previewUrl, onDo
     return (
         <div className="shrink-0 px-8 py-4 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 flex justify-between items-center sticky top-0 z-10">
             <div className="flex flex-col min-w-0">
-                <Breadcrumb items={[
-                    { label: 'Dashboard', href: '/dashboard' },
-                    { label: 'Documents', href: '/documents' },
-                    { label: doc?.name || '…' },
-                ]} />
                 <div className="flex items-center gap-3">
                     <Icon className={`w-5 h-5 ${iconColor} shrink-0`} />
                     <h1 className="text-xl font-bold text-slate-900 dark:text-white truncate max-w-lg">{doc?.name}</h1>

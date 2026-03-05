@@ -3,11 +3,9 @@ import {
     Edit3, Trash2, MoreVertical, Users,
 } from 'lucide-react';
 import { ROLES } from './UserModal';
+import { getInitials } from '../../utils/formatters';
 
 // ── helpers ────────────────────────────────────────────────────────────────────
-function getInitials(name = '') {
-    return name.split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase() || '?';
-}
 const avatarPalette = [
     'bg-primary-600', 'bg-emerald-500', 'bg-violet-500',
     'bg-orange-500', 'bg-teal-500', 'bg-rose-500', 'bg-amber-500',

@@ -40,31 +40,31 @@
   }
 
   .card-hover {
-    @apply transition-all duration-300 hover:shadow-xl hover:-translate-y-1;
+    @apply transition-all duration-200 hover:shadow-md;
   }
 
   .btn-primary {
-    @apply px-6 py-3 bg-primary-600 text-white rounded-xl font-semibold hover:bg-primary-700 transition-all duration-300 hover:shadow-lg hover:shadow-primary-600/25 active:scale-[0.98];
+    @apply px-5 py-2.5 bg-primary-600 text-white rounded-md font-semibold hover:bg-primary-700 transition-all duration-200 hover:shadow-md hover:shadow-primary-600/20 active:scale-[0.98];
   }
 
   .btn-secondary {
-    @apply px-6 py-3 bg-white text-primary-600 rounded-xl font-semibold border-2 border-primary-600/20 hover:border-primary-600 transition-all duration-300 hover:shadow-lg active:scale-[0.98];
+    @apply px-5 py-2.5 bg-white text-primary-600 rounded-md font-semibold border border-gray-200 hover:border-primary-600 hover:bg-primary-50 transition-all duration-200 active:scale-[0.98];
   }
 
   .btn-accent {
-    @apply px-6 py-3 bg-accent-500 text-white rounded-xl font-semibold hover:bg-accent-600 transition-all duration-300 hover:shadow-lg hover:shadow-accent-500/25 active:scale-[0.98];
+    @apply px-5 py-2.5 bg-accent-500 text-white rounded-md font-semibold hover:bg-accent-600 transition-all duration-200 hover:shadow-md hover:shadow-accent-500/20 active:scale-[0.98];
   }
 
   .input-field {
-    @apply w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-primary-600 focus:ring-2 focus:ring-primary-600/20 outline-none transition-all duration-200 bg-white dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:focus:border-secondary-400 dark:focus:ring-secondary-400/20;
+    @apply w-full px-3.5 py-2.5 rounded-md border border-gray-200 focus:border-primary-600 focus:ring-1 focus:ring-primary-600/20 outline-none transition-all duration-200 bg-white dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:focus:border-secondary-400 dark:focus:ring-secondary-400/20;
   }
 
   .sidebar-link {
-    @apply flex items-center gap-3 px-4 py-3 rounded-xl text-gray-600 hover:bg-primary-50 hover:text-primary-600 transition-all duration-200 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-secondary-400;
+    @apply flex items-center gap-3 px-3 py-2.5 rounded-md text-gray-600 hover:bg-primary-50 hover:text-primary-600 transition-all duration-200 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-secondary-400;
   }
 
   .sidebar-link-active {
-    @apply flex items-center gap-3 px-4 py-3 rounded-xl bg-primary-600 text-white font-medium shadow-lg shadow-primary-600/25 dark:bg-secondary-500 dark:shadow-secondary-500/25;
+    @apply flex items-center gap-3 px-3 py-2.5 rounded-md bg-primary-600 text-white font-medium dark:bg-secondary-500;
   }
 }
 
@@ -171,4 +171,33 @@
 
 .auth-panel-right {
   animation: authCardPop 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.15s both;
+}
+
+/* ─── Sidebar Animations ─── */
+@keyframes slideIn {
+  0% {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.animate-slide-in {
+  animation: slideIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.2s ease-in-out forwards;
 }

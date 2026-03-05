@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Trash2, Eye, CheckCircle2, Copy, Info } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
+import Breadcrumb from '../components/shared/Breadcrumb';
 import DocumentActionBar from '../components/document-view/DocumentActionBar';
 import DocumentPreview from '../components/document-view/DocumentPreview';
 import DocumentInfoSidebar from '../components/document-view/DocumentInfoSidebar';
@@ -82,12 +83,15 @@ export default function DocumentView() {
 
     if (loading) {
         return (
+            <>
+            <Breadcrumb items={[{ label: 'Dashboard', href: '/dashboard' }, { label: 'Documents', href: '/documents' }, { label: '…' }]} />
             <div className="-mx-4 lg:-mx-8 -mt-4 lg:-mt-8 flex items-center justify-center" style={{ height: 'calc(100vh - 4rem)' }}>
                 <div className="flex flex-col items-center gap-3">
                     <div className="w-8 h-8 border-2 border-primary-600 border-t-transparent rounded-full animate-spin" />
                     <p className="text-sm text-slate-400">Loading document…</p>
                 </div>
             </div>
+            </>
         );
     }
 
