@@ -1,43 +1,6 @@
 // src/components/document-view/DocumentInfoSidebar.jsx
 import { Info, History, ListChecks, Eye } from 'lucide-react';
-
-// ── helpers ────────────────────────────────────────────────────────────────────
-const avatarPalette = [
-    'bg-blue-500', 'bg-emerald-500', 'bg-violet-500',
-    'bg-orange-500', 'bg-teal-500', 'bg-rose-500',
-];
-
-function formatDate(dateStr) {
-    if (!dateStr) return '—';
-    return new Date(dateStr).toLocaleDateString('en-US', { month: 'short', day: '2-digit', year: 'numeric' });
-}
-
-function formatBytes(bytes) {
-    if (!bytes && bytes !== 0) return '—';
-    if (typeof bytes === 'string') return bytes;
-    if (bytes < 1024) return `${bytes} B`;
-    if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(0)} KB`;
-    return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
-}
-
-function timeAgo(dateStr) {
-    if (!dateStr) return '—';
-    const diff = Math.floor((Date.now() - new Date(dateStr)) / 1000);
-    if (diff < 60) return 'just now';
-    if (diff < 3600) return `${Math.floor(diff / 60)}m ago`;
-    if (diff < 86400) return `${Math.floor(diff / 3600)}h ago`;
-    if (diff < 86400 * 7) return `${Math.floor(diff / 86400)}d ago`;
-    return formatDate(dateStr);
-}
-
-function getInitials(name = '') {
-    return name.split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase() || '?';
-}
-
-function avatarBg(name = '') {
-    let h = 0; for (const c of name) h += c.charCodeAt(0);
-    return avatarPalette[h % avatarPalette.length];
-}
+import { formatBytes, formatDate, timeAgo, getInitials, avatarColor } from '../../utils/formatters';
 
 // ── MetaRow ───────────────────────────────────────────────────────────────────
 function MetaRow({ label, value }) {
@@ -68,7 +31,7 @@ export default function DocumentInfoSidebar({ doc, versions, activity, tags, ext
                     <MetaRow label="Owner" value={
                         <div className="flex items-center gap-2">
                             <span>{doc?.owner || '—'}</span>
-                            <div className={`w-4 h-4 rounded-full ${avatarBg(doc?.owner)} flex items-center justify-center text-white text-[8px] font-bold`}>
+                            <div className={`w-4 h-4 rounded-full ${avatarColor(doc?.owner)} flex items-center justify-center text-white text-[8px] font-bold`}>
                                 {getInitials(doc?.owner).slice(0, 1)}
                             </div>
                         </div>

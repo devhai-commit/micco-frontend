@@ -1,33 +1,6 @@
 // src/components/document-view/DocumentPreview.jsx
 import { Eye, File } from 'lucide-react';
-import { fileTypeIconMap, fileTypeColors } from '../documents/fileTypes';
-
-// ── helpers ────────────────────────────────────────────────────────────────────
-const categoryLabels = {
-    'Tài liệu': 'Document', 'Hợp đồng': 'Contract', 'Báo cáo': 'Report',
-    'Biên bản': 'Minutes', 'Quy trình': 'Process', 'Khác': 'Other',
-    Report: 'Report', Spreadsheet: 'Spreadsheet',
-    'Technical Document': 'Technical Document', Media: 'Media', Archive: 'Archive',
-};
-
-function getCategoryLabel(cat) { return categoryLabels[cat] || cat || 'Other'; }
-
-function formatBytes(bytes) {
-    if (!bytes && bytes !== 0) return '—';
-    if (typeof bytes === 'string') return bytes;
-    if (bytes < 1024) return `${bytes} B`;
-    if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(0)} KB`;
-    return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
-}
-
-function getExt(name = '') {
-    return name.includes('.') ? name.split('.').pop().toUpperCase() : 'FILE';
-}
-
-function formatDate(dateStr) {
-    if (!dateStr) return '—';
-    return new Date(dateStr).toLocaleDateString('en-US', { month: 'short', day: '2-digit', year: 'numeric' });
-}
+import { formatBytes, formatDate, getExt, getCategoryLabel } from '../../utils/formatters';
 
 // ── DocumentPreview ────────────────────────────────────────────────────────────
 function DocumentPreview({ doc, previewUrl }) {

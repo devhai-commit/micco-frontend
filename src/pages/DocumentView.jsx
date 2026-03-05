@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Trash2, Eye, CheckCircle2, Copy, Info } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
@@ -6,19 +6,7 @@ import DocumentActionBar from '../components/document-view/DocumentActionBar';
 import DocumentPreview from '../components/document-view/DocumentPreview';
 import DocumentInfoSidebar from '../components/document-view/DocumentInfoSidebar';
 
-// ── helpers (kept here: used in DocumentView data-prep logic) ──────────────────
-const categoryLabels = {
-    'Tài liệu': 'Document', 'Hợp đồng': 'Contract', 'Báo cáo': 'Report',
-    'Biên bản': 'Minutes', 'Quy trình': 'Process', 'Khác': 'Other',
-    Report: 'Report', Spreadsheet: 'Spreadsheet',
-    'Technical Document': 'Technical Document', Media: 'Media', Archive: 'Archive',
-};
-
-function getExt(name = '') {
-    return name.includes('.') ? name.split('.').pop().toUpperCase() : 'FILE';
-}
-
-function getCategoryLabel(cat) { return categoryLabels[cat] || cat || 'Other'; }
+import { getExt, getCategoryLabel } from '../utils/formatters';
 
 // ── Main ───────────────────────────────────────────────────────────────────────
 export default function DocumentView() {
@@ -33,9 +21,15 @@ export default function DocumentView() {
     const [shareModal, setShareModal] = useState(false);
     const [copied, setCopied] = useState(false);
 
+    const previewUrlRef = useRef(null);
+    const setPreview = (url) => {
+        previewUrlRef.current = url;
+        setPreviewUrl(url);
+    };
+
     useEffect(() => {
         fetchDoc();
-        return () => { if (previewUrl) URL.revokeObjectURL(previewUrl); };
+        return () => { if (previewUrlRef.current) URL.revokeObjectURL(previewUrlRef.current); };
     }, [id]);
 
     const fetchDoc = async () => {
@@ -57,7 +51,7 @@ export default function DocumentView() {
             if (!res.ok) return;
             const blob = await res.blob();
             const mime = ext === 'PDF' ? 'application/pdf' : `image/${ext.toLowerCase()}`;
-            setPreviewUrl(URL.createObjectURL(new Blob([blob], { type: mime })));
+            setPreview(URL.createObjectURL(new Blob([blob], { type: mime })));
         } catch { /* no preview */ }
     };
 
