@@ -1,5 +1,6 @@
 // src/components/chat/ChatMessage.jsx
 import { Bot, User, FileText, ExternalLink } from 'lucide-react';
+import KnowledgeGraphPanel from './KnowledgeGraphPanel';
 
 export default function ChatMessage({ msg }) {
     return (
@@ -29,6 +30,9 @@ export default function ChatMessage({ msg }) {
                                 </span>
                             ))}
                         </div>
+                    )}
+                    {import.meta.env.DEV && msg.graph_data && (
+                        <KnowledgeGraphPanel data={msg.graph_data} />
                     )}
                 </div>
             </div>
