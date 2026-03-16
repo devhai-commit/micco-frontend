@@ -8,10 +8,10 @@ export default function DocumentContextPanel({ documents, selectedDocs, onToggle
                 <div className="p-4 border-b border-gray-100 dark:border-gray-800">
                     <div className="flex items-center gap-2 mb-1">
                         <BookOpen className="w-4 h-4 text-primary-600 dark:text-primary-400" />
-                        <h3 className="font-bold text-gray-900 dark:text-white text-sm">Document Context</h3>
+                        <h3 className="font-bold text-gray-900 dark:text-white text-sm">Ngữ cảnh tài liệu</h3>
                     </div>
                     <p className="text-xs text-gray-500 dark:text-gray-400">
-                        Select documents for the AI to reference
+                        Chọn tài liệu để AI tham khảo
                     </p>
                 </div>
 
@@ -44,7 +44,7 @@ export default function DocumentContextPanel({ documents, selectedDocs, onToggle
 
                 <div className="p-3 border-t border-gray-100 dark:border-gray-800">
                     <p className="text-xs text-gray-500 dark:text-gray-400 text-center">
-                        {selectedDocs.size} document{selectedDocs.size !== 1 ? 's' : ''} selected
+                        {selectedDocs.size} tài liệu được chọn
                     </p>
                 </div>
             </div>

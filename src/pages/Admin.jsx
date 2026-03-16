@@ -84,12 +84,12 @@ export default function Admin() {
                 setEditUser(null);
                 await fetchUsers();
                 await fetchStats();
-                showToast(isEdit ? `${form.name} updated successfully` : `${form.name} added successfully`);
+                showToast(isEdit ? `Cập nhật ${form.name} thành công` : `Thêm ${form.name} thành công`);
             } else {
                 const err = await res.json();
-                showToast(err.detail || 'Operation failed', 'error');
+                showToast(err.detail || 'Thao tác thất bại', 'error');
             }
-        } catch { showToast('Something went wrong', 'error'); }
+        } catch { showToast('Có lỗi xảy ra', 'error'); }
     };
 
     const handleDelete = async (id) => {
@@ -99,12 +99,12 @@ export default function Admin() {
                 setDeleteUser(null);
                 await fetchUsers();
                 await fetchStats();
-                showToast('User removed successfully');
+                showToast('Xóa người dùng thành công');
             } else {
                 const err = await res.json();
-                showToast(err.detail || 'Delete failed', 'error');
+                showToast(err.detail || 'Xóa thất bại', 'error');
             }
-        } catch { showToast('Delete failed', 'error'); }
+        } catch { showToast('Xóa thất bại', 'error'); }
     };
 
     const handleExport = () => {
@@ -130,9 +130,9 @@ export default function Admin() {
     };
 
     const statCards = stats ? [
-        { icon: Users, label: 'Total Users', value: stats.totalUsers?.toLocaleString(), change: stats.totalUsersChange, positive: true },
-        { icon: HardDrive, label: 'Storage Used', value: stats.storageUsed, change: stats.storageChange, positive: true },
-        { icon: Zap, label: 'Active Sessions', value: stats.activeSessions, change: stats.activeSessionsChange, positive: false },
+        { icon: Users, label: 'Tổng người dùng', value: stats.totalUsers?.toLocaleString(), change: stats.totalUsersChange, positive: true },
+        { icon: HardDrive, label: 'Dung lượng dùng', value: stats.storageUsed, change: stats.storageChange, positive: true },
+        { icon: Zap, label: 'Phiên hoạt động', value: stats.activeSessions, change: stats.activeSessionsChange, positive: false },
     ] : [];
 
     return (
@@ -140,8 +140,8 @@ export default function Admin() {
 
             {/* ── Breadcrumb ─────────────────────────────────────────────── */}
             <Breadcrumb items={[
-                { label: 'Dashboard', href: '/dashboard' },
-                { label: 'Admin' },
+                { label: 'Tổng quan', href: '/dashboard' },
+                { label: 'Quản trị' },
             ]} />
 
             {/* ── Toast ──────────────────────────────────────────────────── */}
@@ -162,15 +162,15 @@ export default function Admin() {
             {/* ── Header ─────────────────────────────────────────────────── */}
             <div className="flex items-center justify-between">
                 <div>
-                    <h2 className="text-2xl font-bold text-slate-900 dark:text-white">Dashboard Overview</h2>
-                    <p className="text-sm text-slate-500 dark:text-slate-400 mt-0.5">Manage users, roles, and system activity</p>
+                    <h2 className="text-2xl font-bold text-slate-900 dark:text-white">Tổng quan hệ thống</h2>
+                    <p className="text-sm text-slate-500 dark:text-slate-400 mt-0.5">Quản lý người dùng, vai trò và hoạt động hệ thống</p>
                 </div>
                 <button
                     onClick={() => { setEditUser(null); setAddModal(true); }}
                     className="flex items-center gap-2 px-4 py-2.5 bg-primary-600 hover:bg-primary-700 text-white text-sm font-semibold rounded-lg transition-colors shadow-sm"
                 >
                     <Plus className="w-4 h-4" />
-                    Add New User
+                    Thêm người dùng mới
                 </button>
             </div>
 
@@ -217,12 +217,12 @@ export default function Admin() {
             />
             {deleteUser && (
                 <ConfirmDeleteModal
-                    title="Delete User"
+                    title="Xóa người dùng"
                     description={
                         <>
-                            Are you sure you want to remove{' '}
+                            Bạn có chắc chắn muốn xóa{' '}
                             <span className="font-semibold text-slate-700 dark:text-slate-200">"{deleteUser.name}"</span>?
-                            {' '}This action cannot be undone.
+                            {' '}Hành động này không thể hoàn tác.
                         </>
                     }
                     onClose={() => setDeleteUser(null)}

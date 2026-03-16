@@ -3,7 +3,7 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContaine
 export default function StorageChart({ data }) {
     return (
         <div className="bg-white dark:bg-gray-900 rounded-lg p-5 border border-gray-200 dark:border-gray-800">
-            <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-6">Storage by Type</h3>
+            <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-6">Dung lượng theo loại tệp</h3>
             <div className="h-64">
                 <ResponsiveContainer width="100%" height="100%">
                     <BarChart data={data}>

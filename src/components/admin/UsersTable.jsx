@@ -49,7 +49,7 @@ export default function UsersTable({
 
             {/* Table toolbar */}
             <div className="px-6 py-4 border-b border-slate-200 dark:border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                <h3 className="font-bold text-lg text-slate-900 dark:text-white">User Management</h3>
+                <h3 className="font-bold text-lg text-slate-900 dark:text-white">Quản lý người dùng</h3>
                 <div className="flex items-center gap-2 flex-wrap">
                     {/* Search */}
                     <div className="relative flex items-center">
@@ -57,7 +57,7 @@ export default function UsersTable({
                         <input
                             value={search}
                             onChange={e => onSearchChange(e.target.value)}
-                            placeholder="Search users..."
+                            placeholder="Tìm kiếm người dùng..."
                             className="pl-9 pr-3 py-1.5 text-sm rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 outline-none focus:ring-2 focus:ring-primary-600/30 focus:border-primary-600 w-48 transition-all"
                         />
                     </div>
@@ -67,13 +67,13 @@ export default function UsersTable({
                         onChange={e => onRoleFilterChange(e.target.value)}
                         className="py-1.5 pl-3 pr-8 text-sm rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 outline-none focus:ring-2 focus:ring-primary-600/30 cursor-pointer appearance-none"
                     >
-                        {ROLES.map(r => <option key={r} value={r}>{r === 'All' ? 'All Roles' : r}</option>)}
+                        {ROLES.map(r => <option key={r} value={r}>{r === 'All' ? 'Tất cả vai trò' : r}</option>)}
                     </select>
                     <button
                         onClick={onExport}
                         className="flex items-center gap-1.5 text-slate-500 dark:text-slate-400 text-sm font-medium px-3 py-1.5 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors border border-slate-200 dark:border-slate-700"
                     >
-                        <Download className="w-4 h-4" /> Export
+                        <Download className="w-4 h-4" /> Xuất
                     </button>
                 </div>
             </div>
@@ -83,11 +83,11 @@ export default function UsersTable({
                 <table className="w-full text-left border-collapse">
                     <thead>
                         <tr className="bg-slate-50 dark:bg-slate-800/50">
-                            <th className="px-6 py-4 text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Name</th>
-                            <th className="px-6 py-4 text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Role</th>
-                            <th className="px-6 py-4 text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Status</th>
-                            <th className="px-6 py-4 text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Joined</th>
-                            <th className="px-6 py-4 text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider text-right">Actions</th>
+                            <th className="px-6 py-4 text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Tên</th>
+                            <th className="px-6 py-4 text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Vai trò</th>
+                            <th className="px-6 py-4 text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Trạng thái</th>
+                            <th className="px-6 py-4 text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Ngày tham gia</th>
+                            <th className="px-6 py-4 text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider text-right">Thành việc</th>
                         </tr>
                     </thead>
                     <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
@@ -95,8 +95,8 @@ export default function UsersTable({
                             <tr>
                                 <td colSpan={5} className="px-6 py-14 text-center">
                                     <Users className="w-10 h-10 text-slate-200 dark:text-slate-700 mx-auto mb-3" />
-                                    <p className="text-slate-500 dark:text-slate-400 font-medium text-sm">No users found</p>
-                                    <p className="text-xs text-slate-400 dark:text-slate-500 mt-1">Try adjusting your search or filters</p>
+                                    <p className="text-slate-500 dark:text-slate-400 font-medium text-sm">Không tìm thấy người dùng</p>
+                                    <p className="text-xs text-slate-400 dark:text-slate-500 mt-1">Hãy điều chỉnh bộ lọc hoặc tìm kiếm</p>
                                 </td>
                             </tr>
                         )}
@@ -130,7 +130,7 @@ export default function UsersTable({
                                     <td className="px-6 py-4">
                                         <span className={`flex items-center gap-1.5 text-xs font-semibold ${active ? 'text-emerald-600 dark:text-emerald-400' : 'text-slate-400 dark:text-slate-500'}`}>
                                             <span className={`w-1.5 h-1.5 rounded-full ${active ? 'bg-emerald-500' : 'bg-slate-400'}`} />
-                                            {active ? 'Active' : 'Inactive'}
+                                            {active ? 'Hoạt động' : 'Không hoạt động'}
                                         </span>
                                     </td>
                                     {/* Joined */}
@@ -151,7 +151,7 @@ export default function UsersTable({
                                                     onClick={() => { onEdit(u); onOpenMenu(null); }}
                                                     className="flex items-center gap-2.5 w-full px-4 py-2.5 text-sm text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors"
                                                 >
-                                                    <Edit3 className="w-4 h-4 text-slate-400" /> Edit
+                                                    <Edit3 className="w-4 h-4 text-slate-400" /> Chỉnh sửa
                                                 </button>
                                                 {!isSelf && (
                                                     <>
@@ -160,7 +160,7 @@ export default function UsersTable({
                                                             onClick={() => { onDelete(u); onOpenMenu(null); }}
                                                             className="flex items-center gap-2.5 w-full px-4 py-2.5 text-sm text-red-500 hover:bg-red-50 dark:hover:bg-red-500/10 transition-colors"
                                                         >
-                                                            <Trash2 className="w-4 h-4" /> Remove
+                                                            <Trash2 className="w-4 h-4" /> Xóa
                                                         </button>
                                                     </>
                                                 )}
@@ -177,7 +177,7 @@ export default function UsersTable({
             {/* Pagination footer */}
             <div className="px-6 py-4 bg-slate-50 dark:bg-slate-800/50 border-t border-slate-200 dark:border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-3">
                 <p className="text-sm text-slate-500 dark:text-slate-400">
-                    {total > 0 ? `Showing ${startRow} to ${endRow} of ${total.toLocaleString()} results` : 'No results'}
+                    {total > 0 ? `Hiển thị ${startRow} đến ${endRow} trong số ${total.toLocaleString()} kết quả` : 'Không có kết quả'}
                 </p>
                 <div className="flex items-center gap-1.5">
                     <button
@@ -185,7 +185,7 @@ export default function UsersTable({
                         disabled={page === 1}
                         className="px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-sm text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 disabled:opacity-40 disabled:cursor-not-allowed transition-colors flex items-center gap-1"
                     >
-                        <ChevronLeft className="w-3.5 h-3.5" /> Previous
+                        <ChevronLeft className="w-3.5 h-3.5" /> Trước
                     </button>
 
                     {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
@@ -198,11 +198,10 @@ export default function UsersTable({
                             <button
                                 key={p}
                                 onClick={() => onPageChange(p)}
-                                className={`w-8 h-8 rounded-lg border text-sm font-medium transition-colors ${
-                                    page === p
+                                className={`w-8 h-8 rounded-lg border text-sm font-medium transition-colors ${page === p
                                         ? 'bg-primary-600 border-primary-600 text-white'
                                         : 'border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800'
-                                }`}
+                                    }`}
                             >
                                 {p}
                             </button>
@@ -214,7 +213,7 @@ export default function UsersTable({
                         disabled={page === totalPages}
                         className="px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-sm text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 disabled:opacity-40 disabled:cursor-not-allowed transition-colors flex items-center gap-1"
                     >
-                        Next <ChevronRight className="w-3.5 h-3.5" />
+                        Tiếp <ChevronRight className="w-3.5 h-3.5" />
                     </button>
                 </div>
             </div>

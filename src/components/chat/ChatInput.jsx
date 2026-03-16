@@ -7,7 +7,7 @@ export default function ChatInput({ input, loading, onInputChange, onSubmit, onP
             {/* Example Prompts */}
             {showPrompts && (
                 <div className="px-6 pb-3">
-                    <p className="text-xs text-gray-500 dark:text-gray-400 mb-2 font-medium">Try asking:</p>
+                    <p className="text-xs text-gray-500 dark:text-gray-400 mb-2 font-medium">Hãy thử hỏi:</p>
                     <div className="flex flex-wrap gap-2">
                         {prompts.map((prompt) => (
                             <button
@@ -29,7 +29,7 @@ export default function ChatInput({ input, loading, onInputChange, onSubmit, onP
                         type="text"
                         value={input}
                         onChange={onInputChange}
-                        placeholder="Ask a question about your documents..."
+                        placeholder="Hỏi về tài liệu của bạn..."
                         className="input-field flex-1"
                         disabled={loading}
                     />

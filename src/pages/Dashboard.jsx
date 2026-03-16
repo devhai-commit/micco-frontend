@@ -47,20 +47,20 @@ export default function Dashboard() {
     const storageSuffix = stats.storageUsed.replace(/[\d.]/g, '').trim() || 'KB';
 
     const statCards = [
-        { label: 'Total Files', value: stats.totalFiles, icon: FileText, color: 'from-primary-600 to-secondary-500', suffix: '', prefix: '', change: '+8%' },
-        { label: 'Storage Used', value: storageNum, icon: HardDrive, color: 'from-secondary-500 to-secondary-600', suffix: ` ${storageSuffix}`, prefix: '', change: '+5%' },
-        { label: 'Recent Uploads', value: stats.recentUploads, icon: Upload, color: 'from-accent-500 to-accent-600', suffix: '', prefix: '', change: '+12%' },
-        { label: 'Team Members', value: stats.teamMembers, icon: Users, color: 'from-amber-500 to-amber-600', suffix: '', prefix: '', change: '+3%' },
+        { label: 'Tổng tệp', value: stats.totalFiles, icon: FileText, color: 'from-primary-600 to-secondary-500', suffix: '', prefix: '', change: '+8%' },
+        { label: 'Dung lượng dùng', value: storageNum, icon: HardDrive, color: 'from-secondary-500 to-secondary-600', suffix: ` ${storageSuffix}`, prefix: '', change: '+5%' },
+        { label: 'Tải lên gần đây', value: stats.recentUploads, icon: Upload, color: 'from-accent-500 to-accent-600', suffix: '', prefix: '', change: '+12%' },
+        { label: 'Thành viên', value: stats.teamMembers, icon: Users, color: 'from-amber-500 to-amber-600', suffix: '', prefix: '', change: '+3%' },
     ];
 
     return (
         <div className="space-y-8">
-            <Breadcrumb items={[{ label: 'Dashboard' }]} />
+            <Breadcrumb items={[{ label: 'Tổng quan' }]} />
 
             {/* Page Header */}
             <div>
-                <h1 className="text-xl font-bold text-gray-900 dark:text-white">Dashboard</h1>
-                <p className="text-sm text-gray-500 dark:text-gray-400 mt-0.5">Welcome back! Here's an overview of your workspace.</p>
+                <h1 className="text-xl font-bold text-gray-900 dark:text-white">Tổng quan</h1>
+                <p className="text-sm text-gray-500 dark:text-gray-400 mt-0.5">Chào mừng trở lại! Đây là tổng quan không gian làm việc của bạn.</p>
             </div>
 
             {/* Stats Grid */}

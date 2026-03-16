@@ -4,17 +4,15 @@ import { useTheme } from '../context/ThemeContext';
 import { useAuth } from '../context/AuthContext';
 import {
     LayoutDashboard, FolderOpen, Upload, MessageSquare,
-    Users, Settings, Menu, X, Sun, Moon, Bell,
-    Search, LogOut, ChevronDown, FileText, File,
-    Folder, Share2, Clock, ChevronLeft, ChevronRight, ShieldCheck
+    X, Sun, Moon, Bell,
+    Search, LogOut, ChevronDown, FileText,
+    ChevronLeft, ChevronRight, ShieldCheck
 } from 'lucide-react';
 
 const sidebarItems = [
-    { label: 'Files', path: '/documents', icon: File },
-    { label: 'Folders', path: '/documents', icon: Folder },
-    { label: 'Shared', path: '/dashboard', icon: Share2 },
-    { label: 'Recent', path: '/dashboard', icon: Clock },
-    { label: 'AI Chat', path: '/chat', icon: MessageSquare },
+    { label: 'Tổng quan', path: '/dashboard', icon: LayoutDashboard, desc: 'Thống kê & tổng hợp' },
+    { label: 'Tài liệu', path: '/documents', icon: FolderOpen, desc: 'Tất cả tệp của bạn' },
+    { label: 'Trợ lý AI', path: '/chat', icon: MessageSquare, desc: 'Trò chuyện với tài liệu' },
 ];
 
 export default function DashboardLayout() {
@@ -45,7 +43,7 @@ export default function DashboardLayout() {
                                 Enterprise
                             </span>
                             <span className="text-xs text-gray-500 dark:text-gray-400">
-                                Work Organization
+                                Quản lý Công việc
                             </span>
                         </div>
                     )}
@@ -80,7 +78,12 @@ export default function DashboardLayout() {
                             `}
                         >
                             <Icon className="w-5 h-5 flex-shrink-0" />
-                            {sidebarOpen && <span className="text-sm font-medium">{item.label}</span>}
+                            {sidebarOpen && (
+                                <div className="flex flex-col min-w-0">
+                                    <span className="text-sm font-medium leading-tight">{item.label}</span>
+                                    <span className={`text-xs leading-tight truncate ${isActive ? 'text-white/70' : 'text-gray-400 dark:text-gray-500'}`}>{item.desc}</span>
+                                </div>
+                            )}
                         </Link>
                     );
                 })}
@@ -102,7 +105,7 @@ export default function DashboardLayout() {
                         `}
                     >
                         <ShieldCheck className="w-5 h-5 flex-shrink-0" />
-                        {sidebarOpen && <span className="text-sm font-medium">Admin</span>}
+                        {sidebarOpen && <span className="text-sm font-medium">Quản trị</span>}
                     </Link>
                 </div>
             )}
@@ -118,7 +121,7 @@ export default function DashboardLayout() {
                     `}
                 >
                     <Upload className="w-5 h-5" />
-                    {sidebarOpen && <span className="text-sm font-semibold">Upload Now</span>}
+                    {sidebarOpen && <span className="text-sm font-semibold">Tải lên ngay</span>}
                 </Link>
             </div>
 
@@ -184,7 +187,7 @@ export default function DashboardLayout() {
                                 <Search className="w-4 h-4 text-gray-400" />
                                 <input
                                     type="text"
-                                    placeholder="Search documents..."
+                                    placeholder="Tìm kiếm tài liệu..."
                                     className="bg-transparent outline-none text-sm text-gray-700 dark:text-gray-300 w-full placeholder-gray-400"
                                 />
                             </div>
@@ -222,7 +225,7 @@ export default function DashboardLayout() {
                                             className="flex items-center gap-2 w-full px-4 py-2.5 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
                                         >
                                             <LogOut className="w-4 h-4" />
-                                            Sign Out
+                                            Đăng xuất
                                         </button>
                                     </div>
                                 )}

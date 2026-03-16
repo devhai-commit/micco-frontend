@@ -33,7 +33,7 @@ export default function ConfirmDeleteModal({ title, description, onClose, onConf
                         disabled={deleting}
                         className="flex-1 py-2.5 rounded-lg border border-slate-200 dark:border-slate-700 text-sm font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
                     >
-                        Cancel
+                        Hủy
                     </button>
                     <button
                         onClick={handleConfirm}
@@ -41,7 +41,7 @@ export default function ConfirmDeleteModal({ title, description, onClose, onConf
                         className="flex-1 py-2.5 rounded-lg bg-red-500 hover:bg-red-600 text-white text-sm font-semibold transition-colors disabled:opacity-60 flex items-center justify-center gap-2"
                     >
                         {deleting && <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />}
-                        Delete
+                        Xóa
                     </button>
                 </div>
             </div>

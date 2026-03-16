@@ -37,7 +37,7 @@ export default function UserModal({ open, onClose, onSave, editUser }) {
                             <UserPlus className="w-4 h-4 text-primary-700 dark:text-primary-400" />
                         </div>
                         <h3 className="text-base font-bold text-slate-900 dark:text-white">
-                            {editUser ? 'Edit User' : 'Add New User'}
+                            {editUser ? 'Chỉnh sửa người dùng' : 'Thêm người dùng mới'}
                         </h3>
                     </div>
                     <button onClick={onClose} className="p-1.5 rounded-lg text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
@@ -47,12 +47,12 @@ export default function UserModal({ open, onClose, onSave, editUser }) {
 
                 <form onSubmit={handleSubmit} className="space-y-4">
                     <div>
-                        <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1.5">Full Name</label>
+                        <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1.5">Họ và Tên</label>
                         <input
                             required
                             value={form.name}
                             onChange={e => setForm(f => ({ ...f, name: e.target.value }))}
-                            placeholder="Jane Doe"
+                            placeholder="Nguyễn Văn A"
                             className="w-full px-3 py-2.5 text-sm rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white placeholder-slate-400 outline-none focus:ring-2 focus:ring-primary-600/30 focus:border-primary-600 transition-all"
                         />
                     </div>
@@ -63,12 +63,12 @@ export default function UserModal({ open, onClose, onSave, editUser }) {
                             type="email"
                             value={form.email}
                             onChange={e => setForm(f => ({ ...f, email: e.target.value }))}
-                            placeholder="jane@company.com"
+                            placeholder="nguyen@congty.vn"
                             className="w-full px-3 py-2.5 text-sm rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white placeholder-slate-400 outline-none focus:ring-2 focus:ring-primary-600/30 focus:border-primary-600 transition-all"
                         />
                     </div>
                     <div>
-                        <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1.5">Role</label>
+                        <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1.5">Vai trò</label>
                         <select
                             value={form.role}
                             onChange={e => setForm(f => ({ ...f, role: e.target.value }))}
@@ -79,13 +79,13 @@ export default function UserModal({ open, onClose, onSave, editUser }) {
                     </div>
                     {!editUser && (
                         <div>
-                            <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1.5">Password</label>
+                            <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1.5">Mật khẩu</label>
                             <div className="relative">
                                 <input
                                     type={showPass ? 'text' : 'password'}
                                     value={form.password}
                                     onChange={e => setForm(f => ({ ...f, password: e.target.value }))}
-                                    placeholder="Leave blank to use default"
+                                    placeholder="Để trống nếu dùng mặc định"
                                     className="w-full px-3 py-2.5 pr-10 text-sm rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white placeholder-slate-400 outline-none focus:ring-2 focus:ring-primary-600/30 focus:border-primary-600 transition-all"
                                 />
                                 <button type="button" onClick={() => setShowPass(s => !s)} className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300">
@@ -97,11 +97,11 @@ export default function UserModal({ open, onClose, onSave, editUser }) {
 
                     <div className="flex gap-3 pt-2">
                         <button type="button" onClick={onClose} className="flex-1 py-2.5 rounded-lg border border-slate-200 dark:border-slate-700 text-sm font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
-                            Cancel
+                            Hủy
                         </button>
                         <button type="submit" disabled={saving} className="flex-1 py-2.5 rounded-lg bg-primary-600 hover:bg-primary-700 text-white text-sm font-semibold transition-colors disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2">
                             {saving && <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />}
-                            {editUser ? 'Save Changes' : 'Add User'}
+                            {editUser ? 'Lưu thay đổi' : 'Thêm người dùng'}
                         </button>
                     </div>
                 </form>

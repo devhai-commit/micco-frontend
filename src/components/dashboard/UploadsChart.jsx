@@ -3,7 +3,7 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContai
 export default function UploadsChart({ data }) {
     return (
         <div className="bg-white dark:bg-gray-900 rounded-lg p-5 border border-gray-200 dark:border-gray-800">
-            <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-6">Uploads Over Time</h3>
+            <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-6">Lượt tải lên theo thời gian</h3>
             <div className="h-64">
                 <ResponsiveContainer width="100%" height="100%">
                     <LineChart data={data}>

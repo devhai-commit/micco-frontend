@@ -13,7 +13,7 @@ export default function ChatAssistant() {
         {
             id: 0,
             role: 'ai',
-            content: 'Hello! I\'m your AI Document Assistant. I can help you find information, summarize documents, or answer questions based on your uploaded files. How can I help you today?',
+            content: 'Xin chào! Tôi là Trợ lý Tài liệu AI của bạn. Tôi có thể giúp bạn tìm kiếm thông tin, tóm tắt tài liệu hoặc trả lời câu hỏi dựa trên các tệp bạn đã tải lên. Tôi có thể giúp gì cho bạn hôm nay?',
             sources: [],
         },
     ]);
@@ -95,7 +95,7 @@ export default function ChatAssistant() {
                 setMessages(prev => [...prev, {
                     id: Date.now() + 1,
                     role: 'ai',
-                    content: 'Sorry, I encountered an error processing your request. Please try again.',
+                    content: 'Xin lỗi, đã xảy ra lỗi khi xử lý yêu cầu của bạn. Vui lòng thử lại.',
                     sources: [],
                 }]);
             }
@@ -104,7 +104,7 @@ export default function ChatAssistant() {
             setMessages(prev => [...prev, {
                 id: Date.now() + 1,
                 role: 'ai',
-                content: 'Sorry, I couldn\'t connect to the server. Please check if the backend is running.',
+                content: 'Xin lỗi, không thể kết nối đến máy chủ. Vui lòng kiểm tra xem backend có đang chạy không.',
                 sources: [],
             }]);
         } finally {
@@ -119,7 +119,7 @@ export default function ChatAssistant() {
 
     return (
         <>
-            <Breadcrumb items={[{ label: 'Dashboard', href: '/dashboard' }, { label: 'AI Chat' }]} />
+            <Breadcrumb items={[{ label: 'Tổng quan', href: '/dashboard' }, { label: 'Trợ lý AI' }]} />
             <div className="flex h-[calc(100vh-8rem)] gap-6">
                 <DocumentContextPanel
                     documents={documents}
@@ -136,9 +136,9 @@ export default function ChatAssistant() {
                             <Sparkles className="w-5 h-5 text-white" />
                         </div>
                         <div>
-                            <h2 className="font-bold text-gray-900 dark:text-white">AI Document Assistant</h2>
+                            <h2 className="font-bold text-gray-900 dark:text-white">Trợ lý Tài liệu AI</h2>
                             <p className="text-xs text-gray-500 dark:text-gray-400">
-                                Ask questions about your documents • {selectedDocs.size} docs in context
+                                Hỏi về tài liệu của bạn • {selectedDocs.size} tài liệu trong ngữ cảnh
                             </p>
                         </div>
                         <button
@@ -146,7 +146,7 @@ export default function ChatAssistant() {
                             className="ml-auto hidden lg:flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-medium text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300 bg-gray-100 dark:bg-gray-800 transition-colors"
                         >
                             <FileText className="w-3.5 h-3.5" />
-                            {showDocs ? 'Hide' : 'Show'} Docs
+                            {showDocs ? 'Ẩn' : 'Hiện'} tài liệu
                         </button>
                     </div>
 
@@ -164,7 +164,7 @@ export default function ChatAssistant() {
                                     </div>
                                     <div className="chat-bubble-ai flex items-center gap-2">
                                         <Loader2 className="w-4 h-4 animate-spin text-secondary-500" />
-                                        <span className="text-sm text-gray-500 dark:text-gray-400">Analyzing documents...</span>
+                                        <span className="text-sm text-gray-500 dark:text-gray-400">Đang phân tích tài liệu...</span>
                                     </div>
                                 </div>
                             </div>

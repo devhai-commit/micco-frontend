@@ -84,13 +84,13 @@ export default function DocumentView() {
     if (loading) {
         return (
             <>
-            <Breadcrumb items={[{ label: 'Dashboard', href: '/dashboard' }, { label: 'Documents', href: '/documents' }, { label: '…' }]} />
-            <div className="-mx-4 lg:-mx-8 -mt-4 lg:-mt-8 flex items-center justify-center" style={{ height: 'calc(100vh - 4rem)' }}>
-                <div className="flex flex-col items-center gap-3">
-                    <div className="w-8 h-8 border-2 border-primary-600 border-t-transparent rounded-full animate-spin" />
-                    <p className="text-sm text-slate-400">Loading document…</p>
+                <Breadcrumb items={[{ label: 'Dashboard', href: '/dashboard' }, { label: 'Documents', href: '/documents' }, { label: '…' }]} />
+                <div className="-mx-4 lg:-mx-8 -mt-4 lg:-mt-8 flex items-center justify-center" style={{ height: 'calc(100vh - 4rem)' }}>
+                    <div className="flex flex-col items-center gap-3">
+                        <div className="w-8 h-8 border-2 border-primary-600 border-t-transparent rounded-full animate-spin" />
+                        <p className="text-sm text-slate-400">Đang tải tài liệu…</p>
+                    </div>
                 </div>
-            </div>
             </>
         );
     }
@@ -107,15 +107,15 @@ export default function DocumentView() {
         { label: 'V 1.0', user: 'System', time: doc?.created_at, current: false },
     ];
     const activity = [
-        { icon: <Eye className="w-4 h-4" />, bg: 'bg-primary-100 dark:bg-primary-900/30 text-primary-600 dark:text-primary-400', user: doc?.owner || 'You', action: 'uploaded this document', time: doc?.created_at },
-        { icon: <Info className="w-4 h-4" />, bg: 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400', user: 'System', action: 'indexed document for AI search', time: doc?.created_at },
+        { icon: <Eye className="w-4 h-4" />, bg: 'bg-primary-100 dark:bg-primary-900/30 text-primary-600 dark:text-primary-400', user: doc?.owner || 'Bạn', action: 'đã tải tài liệu này lên', time: doc?.created_at },
+        { icon: <Info className="w-4 h-4" />, bg: 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400', user: 'Hệ thống', action: 'đã lập chỉ mục tài liệu cho tìm kiếm AI', time: doc?.created_at },
     ];
 
     return (
         // Break out of layout padding for full-bleed layout
         <div className="-mx-4 lg:-mx-8 -mt-4 lg:-mt-8 flex flex-col" style={{ height: 'calc(100vh - 4rem)' }}>
             <div className="px-8 pt-3">
-                <Breadcrumb items={[{ label: 'Dashboard', href: '/dashboard' }, { label: 'Documents', href: '/documents' }, { label: doc?.name || '…' }]} />
+                <Breadcrumb items={[{ label: 'Tổng quan', href: '/dashboard' }, { label: 'Tài liệu', href: '/documents' }, { label: doc?.name || '…' }]} />
             </div>
 
             <DocumentActionBar
@@ -150,14 +150,14 @@ export default function DocumentView() {
             <footer className="shrink-0 h-8 bg-slate-100 dark:bg-slate-800 border-t border-slate-200 dark:border-slate-700 px-6 flex items-center justify-between text-[10px] text-slate-400">
                 <div className="flex items-center gap-4">
                     <span className="flex items-center gap-1">
-                        <CheckCircle2 className="w-3 h-3 text-emerald-500" /> All changes saved
+                        <CheckCircle2 className="w-3 h-3 text-emerald-500" />                     Đã lưu tất cả thay đổi
                     </span>
                     {doc?.id && <span>ID: DOC-{String(doc.id).padStart(4, '0')}</span>}
                 </div>
                 <div className="flex items-center gap-4">
                     <button onClick={handleCopyLink} className="flex items-center gap-1 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
                         {copied ? <CheckCircle2 className="w-3 h-3 text-emerald-500" /> : <Copy className="w-3 h-3" />}
-                        {copied ? 'Copied!' : 'Copy link'}
+                        {copied ? 'Đã sao chép!' : 'Sao chép liên kết'}
                     </button>
                     <span className="text-slate-300 dark:text-slate-600">Enterprise Docs</span>
                 </div>
@@ -171,14 +171,14 @@ export default function DocumentView() {
                         <div className="w-11 h-11 rounded-xl bg-red-100 dark:bg-red-500/20 flex items-center justify-center mx-auto mb-4">
                             <Trash2 className="w-5 h-5 text-red-500" />
                         </div>
-                        <h3 className="text-base font-bold text-slate-900 dark:text-white text-center mb-1">Delete Document</h3>
+                        <h3 className="text-base font-bold text-slate-900 dark:text-white text-center mb-1">Xóa tài liệu</h3>
                         <p className="text-sm text-slate-500 dark:text-slate-400 text-center mb-5">
-                            Are you sure you want to delete{' '}
-                            <span className="font-semibold text-slate-700 dark:text-slate-200">"{doc?.name}"</span>? This cannot be undone.
+                            Bạn có chắc chắn muốn xóa{' '}
+                            <span className="font-semibold text-slate-700 dark:text-slate-200">"{doc?.name}"</span>? Hành động này không thể hoàn tác.
                         </p>
                         <div className="flex gap-3">
-                            <button onClick={() => setDeleteModal(false)} className="flex-1 py-2.5 rounded-lg border border-slate-200 dark:border-slate-700 text-sm font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">Cancel</button>
-                            <button onClick={handleDelete} className="flex-1 py-2.5 rounded-lg bg-red-500 hover:bg-red-600 text-white text-sm font-semibold transition-colors">Delete</button>
+                            <button onClick={() => setDeleteModal(false)} className="flex-1 py-2.5 rounded-lg border border-slate-200 dark:border-slate-700 text-sm font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">Hủy</button>
+                            <button onClick={handleDelete} className="flex-1 py-2.5 rounded-lg bg-red-500 hover:bg-red-600 text-white text-sm font-semibold transition-colors">Xóa</button>
                         </div>
                     </div>
                 </div>
@@ -190,23 +190,23 @@ export default function DocumentView() {
                     <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={() => setShareModal(false)} />
                     <div className="relative bg-white dark:bg-slate-900 rounded-xl p-6 max-w-md w-full mx-4 shadow-2xl border border-slate-200 dark:border-slate-800">
                         <div className="flex items-center justify-between mb-5">
-                            <h3 className="text-base font-bold text-slate-900 dark:text-white">Share Document</h3>
+                            <h3 className="text-base font-bold text-slate-900 dark:text-white">Chia sẻ tài liệu</h3>
                             <button onClick={() => setShareModal(false)} className="p-1.5 rounded-lg text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">✕</button>
                         </div>
                         <div className="mb-4">
-                            <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-2">Document Link</label>
+                            <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-2">Liên kết tài liệu</label>
                             <div className="flex gap-2">
                                 <input readOnly value={window.location.href}
                                     className="flex-1 px-3 py-2 text-sm rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50 text-slate-500 dark:text-slate-400 outline-none" />
                                 <button onClick={handleCopyLink}
                                     className="px-4 py-2 rounded-lg bg-primary-600 hover:bg-primary-700 text-white text-sm font-semibold transition-colors flex items-center gap-1.5">
                                     {copied ? <CheckCircle2 className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
-                                    {copied ? 'Copied!' : 'Copy'}
+                                    {copied ? 'Đã sao chép!' : 'Sao chép'}
                                 </button>
                             </div>
                         </div>
                         <p className="text-xs text-slate-400 text-center border-t border-slate-100 dark:border-slate-800 pt-4">
-                            Share with anyone in your organization who has access.
+                            Chia sẻ với bất kỳ ai trong tổ chức của bạn có quyền truy cập.
                         </p>
                     </div>
                 </div>
