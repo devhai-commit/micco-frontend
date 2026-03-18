@@ -2,7 +2,7 @@ import { createContext, useContext, useState, useEffect } from 'react';
 
 const AuthContext = createContext();
 
-const API_BASE = '/api';
+const API_BASE = (import.meta.env.VITE_API_BASE_URL || '') + '/api';
 
 export function AuthProvider({ children }) {
     const [user, setUser] = useState(null);
@@ -103,7 +103,10 @@ export function AuthProvider({ children }) {
             ...options.headers,
             Authorization: `Bearer ${currentToken}`,
         };
-        return fetch(url, { ...options, headers });
+        // Prepend API base URL for paths starting with /api
+        const baseUrl = import.meta.env.VITE_API_BASE_URL || '';
+        const fullUrl = baseUrl && url.startsWith('/api') ? baseUrl + url : url;
+        return fetch(fullUrl, { ...options, headers });
     };
 
     return (

@@ -84,7 +84,7 @@ export default function DocumentCard({ doc, onView, onDownload, onDelete }) {
                 <div className="absolute inset-0">
                     {doc.thumbnail ? (
                         <img
-                            src={`/api/documents/${doc.id}/thumbnail`}
+                            src={`${import.meta.env.VITE_API_BASE_URL || ''}/api/documents/${doc.id}/thumbnail`}
                             alt={doc.name}
                             className="w-full h-full object-cover"
                             onError={(e) => { e.target.style.display = 'none'; }}
