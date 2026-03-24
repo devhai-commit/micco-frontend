@@ -3,7 +3,6 @@ import { FileText, Sparkles, Bot, Loader2 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { examplePrompts } from '../data/mockData';
 import Breadcrumb from '../components/shared/Breadcrumb';
-import DocumentContextPanel from '../components/chat/DocumentContextPanel';
 import ChatMessage from '../components/chat/ChatMessage';
 import ChatInput from '../components/chat/ChatInput';
 
@@ -121,12 +120,6 @@ export default function ChatAssistant() {
         <>
             <Breadcrumb items={[{ label: 'Tổng quan', href: '/dashboard' }, { label: 'Trợ lý AI' }]} />
             <div className="flex h-[calc(100vh-8rem)] gap-6">
-                <DocumentContextPanel
-                    documents={documents}
-                    selectedDocs={selectedDocs}
-                    showDocs={showDocs}
-                    onToggle={toggleDoc}
-                />
 
                 {/* Chat Panel */}
                 <div className="flex-1 bg-white dark:bg-gray-900 rounded-2xl border border-gray-100 dark:border-gray-800 flex flex-col overflow-hidden">

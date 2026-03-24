@@ -45,10 +45,11 @@ export default function KnowledgeForm({ entry, onSave, onClose, saving = false }
     };
 
     const handleAddTag = (e) => {
-        if (e.key === 'Enter' && tagInput.trim()) {
+        if (e.key === 'Enter' || e.key === ',') {
             e.preventDefault();
-            if (!tags.includes(tagInput.trim())) {
-                setTags([...tags, tagInput.trim()]);
+            const newTag = tagInput.replace(/,+$/, '').trim();
+            if (newTag && !tags.includes(newTag)) {
+                setTags([...tags, newTag]);
             }
             setTagInput('');
         }

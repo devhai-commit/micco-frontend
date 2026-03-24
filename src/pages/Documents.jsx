@@ -34,9 +34,10 @@ export default function Documents() {
     const [deleteTarget, setDeleteTarget] = useState(null);
     const [uploading, setUploading] = useState(false);
     const [uploadCategory, setUploadCategory] = useState('Tài liệu');
-    const [uploadTags, setUploadTags] = useState('');
+    const [uploadTags, setUploadTags] = useState([]);
     const [uploadThumbnail, setUploadThumbnail] = useState(null);
     const [uploadVisibility, setUploadVisibility] = useState('internal');
+    const [uploadTagInput, setUploadTagInput] = useState('');
     const [stagedFiles, setStagedFiles] = useState([]);
     const [uploadSuccess, setUploadSuccess] = useState(false);
     const [openMenu, setOpenMenu] = useState(null);
@@ -103,14 +104,14 @@ export default function Documents() {
             for (const file of stagedFiles) formData.append('files', file);
             formData.append('category', uploadCategory);
             formData.append('visibility', uploadVisibility);
-            if (uploadTags.trim()) formData.append('tags', uploadTags.trim());
+            if (uploadTags.length) formData.append('tags', uploadTags.join(','));
             if (uploadThumbnail) formData.append('thumbnail', uploadThumbnail);
             const res = await authFetch('/api/documents/upload', { method: 'POST', body: formData });
             if (res.ok) {
                 await fetchDocuments();
                 setUploadSuccess(true);
                 setStagedFiles([]);
-                setTimeout(() => { setShowUpload(false); setUploadCategory('Tài liệu'); setUploadTags(''); setUploadThumbnail(null); setUploadVisibility('internal'); setUploadSuccess(false); }, 1500);
+                setTimeout(() => { setShowUpload(false); setUploadCategory('Tài liệu'); setUploadTags([]); setUploadTagInput(''); setUploadThumbnail(null); setUploadVisibility('internal'); setUploadSuccess(false); }, 1500);
             } else { const err = await res.json(); alert(err.detail || 'Upload failed'); }
         } catch (err) { console.error('Upload error:', err); alert('Upload failed. Please try again.'); }
         finally { setUploading(false); }
@@ -129,7 +130,7 @@ export default function Documents() {
     const handleFileInput = (e) => { stageFiles(e.target.files); e.target.value = ''; };
 
     const closeUploadPanel = () => {
-        setShowUpload(false); setStagedFiles([]); setUploadCategory('Tài liệu'); setUploadTags(''); setUploadThumbnail(null); setUploadVisibility('internal'); setUploadSuccess(false);
+        setShowUpload(false); setStagedFiles([]); setUploadCategory('Tài liệu'); setUploadTags([]); setUploadTagInput(''); setUploadThumbnail(null); setUploadVisibility('internal'); setUploadSuccess(false);
     };
 
     const handleDelete = async (id) => {
@@ -328,8 +329,31 @@ export default function Documents() {
                                                 </div>
                                                 <div>
                                                     <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Thẻ</label>
-                                                    <input type="text" value={uploadTags} onChange={(e) => setUploadTags(e.target.value)} placeholder="ví dụ: tài chính, Q1, báo cáo" className="input-field w-full text-sm" />
-                                                    <p className="text-xs text-gray-400 mt-1">Phân cách bằng dấu phẩy</p>
+                                                    <div className="flex flex-wrap items-center gap-1.5 p-2.5 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 min-h-[42px]">
+                                                        {uploadTags.map((tag) => (
+                                                            <span key={tag} className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium bg-primary-50 text-primary-700 dark:bg-secondary-500/20 dark:text-secondary-400">
+                                                                {tag}
+                                                                <button type="button" onClick={() => setUploadTags(uploadTags.filter(t => t !== tag))} className="hover:text-red-500 transition-colors">
+                                                                    <X className="w-3 h-3" />
+                                                                </button>
+                                                            </span>
+                                                        ))}
+                                                        <input
+                                                            type="text"
+                                                            value={uploadTagInput}
+                                                            onChange={(e) => setUploadTagInput(e.target.value)}
+                                                            onKeyDown={(e) => {
+                                                                if (e.key === 'Enter' || e.key === ',') {
+                                                                    e.preventDefault();
+                                                                    const t = uploadTagInput.replace(/,+$/, '').trim();
+                                                                    if (t && !uploadTags.includes(t)) setUploadTags([...uploadTags, t]);
+                                                                    setUploadTagInput('');
+                                                                }
+                                                            }}
+                                                            placeholder={uploadTags.length === 0 ? 'Nhấn Enter hoặc , để thêm thẻ...' : ''}
+                                                            className="flex-1 min-w-[120px] bg-transparent outline-none text-sm text-gray-900 dark:text-white placeholder-gray-400"
+                                                        />
+                                                    </div>
                                                 </div>
                                                 <div>
                                                     <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Ảnh bìa</label>
@@ -414,13 +438,13 @@ export default function Documents() {
                 {/* ─── Grid View ─── */}
                 {view === 'grid' && (
                     <div className="p-6 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3">
-                        {filteredDocs.length === 0 && (
+                        {pageDocs.length === 0 && (
                             <div className="col-span-full py-14 text-center">
                                 <Search className="w-12 h-12 text-gray-200 dark:text-gray-700 mx-auto mb-3" />
                                 <p className="text-gray-500 font-medium">Không tìm thấy tài liệu</p>
                             </div>
                         )}
-                        {filteredDocs.map((doc) => (
+                        {pageDocs.map((doc) => (
                             <DocumentCard
                                 key={doc.id}
                                 doc={doc}

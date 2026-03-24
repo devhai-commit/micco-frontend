@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link, useLocation, Outlet, useNavigate } from 'react-router-dom';
 import { useTheme } from '../context/ThemeContext';
 import { useAuth } from '../context/AuthContext';
+import Logo from '../assets/logo.png';
 import {
     LayoutDashboard, FolderOpen, Upload, MessageSquare, BookOpen, Building2,
     X, Sun, Moon, Bell,
@@ -18,7 +19,7 @@ const sidebarItems = [
 
 export default function DashboardLayout() {
     const { isDark, toggleTheme } = useTheme();
-    const { user, logout } = useAuth();
+    const { user, logout, authFetch } = useAuth();
     const location = useLocation();
     const navigate = useNavigate();
     const [sidebarOpen, setSidebarOpen] = useState(true);
@@ -28,13 +29,10 @@ export default function DashboardLayout() {
 
     useEffect(() => {
         if (user?.role !== 'Admin' && user?.role !== 'Trưởng phòng') return;
-        const token = localStorage.getItem('docvault_token');
-        fetch('/api/approvals/count', {
-            headers: { Authorization: `Bearer ${token}` },
-        })
+        authFetch('/api/approvals/count')
             .then(r => r.ok ? r.json() : null)
             .then(data => data && setPendingCount(data.count || 0))
-            .catch(() => {});
+            .catch(() => { });
     }, [user?.role]);
 
     const handleLogout = () => {
@@ -47,16 +45,16 @@ export default function DashboardLayout() {
             {/* Logo & Brand */}
             <div className={`px-6 py-6 flex items-center ${sidebarOpen ? 'justify-between' : 'justify-center'}`}>
                 <div className="flex items-center gap-3">
-                    <div className="w-9 h-9 rounded-md gradient-primary flex items-center justify-center">
-                        <FileText className="w-4.5 h-4.5 text-white" />
+                    <div className="w-9 h-9 rounded-md  flex items-center justify-center shadow-md">
+                        <img src={Logo} alt="Micco" className="w-10 h-10" />
                     </div>
                     {sidebarOpen && (
                         <div className="flex flex-col">
                             <span className="text-sm font-bold text-gray-900 dark:text-white">
-                                Enterprise
+                                Micco
                             </span>
                             <span className="text-xs text-gray-500 dark:text-gray-400">
-                                Quản lý Công việc
+                                Nền tảng quản lý tri thức
                             </span>
                         </div>
                     )}
