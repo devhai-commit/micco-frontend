@@ -25,10 +25,9 @@ function timeAgo(dateStr) {
 }
 
 const ROLE_COLORS = {
-    Admin: 'bg-primary-600/10 text-primary-700 dark:bg-primary-500/20 dark:text-primary-300',
-    Editor: 'bg-slate-100 text-slate-700 dark:bg-slate-700 dark:text-slate-300',
-    Viewer: 'bg-slate-100 text-slate-700 dark:bg-slate-700 dark:text-slate-300',
-    Member: 'bg-slate-100 text-slate-700 dark:bg-slate-700 dark:text-slate-300',
+    'Admin': 'bg-primary-600/10 text-primary-700 dark:bg-primary-500/20 dark:text-primary-300',
+    'Trưởng phòng': 'bg-amber-100 text-amber-700 dark:bg-amber-500/20 dark:text-amber-300',
+    'Nhân viên': 'bg-slate-100 text-slate-700 dark:bg-slate-700 dark:text-slate-300',
 };
 export const PAGE_SIZE = 10;
 
@@ -68,6 +67,7 @@ export default function UsersTable({
                         className="py-1.5 pl-3 pr-8 text-sm rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 outline-none focus:ring-2 focus:ring-primary-600/30 cursor-pointer appearance-none"
                     >
                         {ROLES.map(r => <option key={r} value={r}>{r === 'All' ? 'Tất cả vai trò' : r}</option>)}
+
                     </select>
                     <button
                         onClick={onExport}
@@ -122,7 +122,7 @@ export default function UsersTable({
                                     </td>
                                     {/* Role */}
                                     <td className="px-6 py-4">
-                                        <span className={`px-2.5 py-1 rounded-full text-xs font-semibold ${ROLE_COLORS[u.role] || ROLE_COLORS.Member}`}>
+                                        <span className={`px-2.5 py-1 rounded-full text-xs font-semibold ${ROLE_COLORS[u.role] || ROLE_COLORS['Nhân viên']}`}>
                                             {u.role}
                                         </span>
                                     </td>

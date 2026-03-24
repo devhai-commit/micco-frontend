@@ -1,17 +1,18 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useLocation, Outlet, useNavigate } from 'react-router-dom';
 import { useTheme } from '../context/ThemeContext';
 import { useAuth } from '../context/AuthContext';
 import {
-    LayoutDashboard, FolderOpen, Upload, MessageSquare,
+    LayoutDashboard, FolderOpen, Upload, MessageSquare, BookOpen, Building2,
     X, Sun, Moon, Bell,
     Search, LogOut, ChevronDown, FileText,
-    ChevronLeft, ChevronRight, ShieldCheck
+    ChevronLeft, ChevronRight, ShieldCheck, ClipboardCheck
 } from 'lucide-react';
 
 const sidebarItems = [
     { label: 'Tổng quan', path: '/dashboard', icon: LayoutDashboard, desc: 'Thống kê & tổng hợp' },
     { label: 'Tài liệu', path: '/documents', icon: FolderOpen, desc: 'Tất cả tệp của bạn' },
+    { label: 'Tri thức', path: '/knowledge', icon: BookOpen, desc: 'Cơ sở tri thức' },
     { label: 'Trợ lý AI', path: '/chat', icon: MessageSquare, desc: 'Trò chuyện với tài liệu' },
 ];
 
@@ -23,6 +24,18 @@ export default function DashboardLayout() {
     const [sidebarOpen, setSidebarOpen] = useState(true);
     const [mobileOpen, setMobileOpen] = useState(false);
     const [userMenuOpen, setUserMenuOpen] = useState(false);
+    const [pendingCount, setPendingCount] = useState(0);
+
+    useEffect(() => {
+        if (user?.role !== 'Admin' && user?.role !== 'Trưởng phòng') return;
+        const token = localStorage.getItem('docvault_token');
+        fetch('/api/approvals/count', {
+            headers: { Authorization: `Bearer ${token}` },
+        })
+            .then(r => r.ok ? r.json() : null)
+            .then(data => data && setPendingCount(data.count || 0))
+            .catch(() => {});
+    }, [user?.role]);
 
     const handleLogout = () => {
         logout();
@@ -89,9 +102,37 @@ export default function DashboardLayout() {
                 })}
             </nav>
 
-            {/* Admin Link */}
-            {user?.role === 'Admin' && (
+            {/* Approvals Link — visible to Admin & Trưởng phòng */}
+            {(user?.role === 'Admin' || user?.role === 'Trưởng phòng') && (
                 <div className="px-3 pb-2">
+                    <Link
+                        to="/approvals"
+                        onClick={() => setMobileOpen(false)}
+                        className={`
+                            flex items-center gap-3 px-3 py-2.5 rounded-md transition-all duration-200
+                            ${sidebarOpen ? 'justify-start' : 'justify-center'}
+                            ${location.pathname === '/approvals'
+                                ? 'bg-primary-600 text-white dark:bg-secondary-500'
+                                : 'text-gray-600 dark:text-gray-400 hover:bg-primary-50 hover:text-primary-600 dark:hover:bg-gray-800 dark:hover:text-secondary-400'
+                            }
+                        `}
+                    >
+                        <ClipboardCheck className="w-5 h-5 flex-shrink-0" />
+                        {sidebarOpen && (
+                            <span className="text-sm font-medium flex-1">Phê duyệt</span>
+                        )}
+                        {pendingCount > 0 && (
+                            <span className="ml-auto min-w-[1.25rem] h-5 px-1 rounded-full bg-amber-500 text-white text-xs font-bold flex items-center justify-center">
+                                {pendingCount}
+                            </span>
+                        )}
+                    </Link>
+                </div>
+            )}
+
+            {/* Admin Links */}
+            {user?.role === 'Admin' && (
+                <div className="px-3 pb-2 space-y-1">
                     <Link
                         to="/admin"
                         onClick={() => setMobileOpen(false)}
@@ -106,6 +147,21 @@ export default function DashboardLayout() {
                     >
                         <ShieldCheck className="w-5 h-5 flex-shrink-0" />
                         {sidebarOpen && <span className="text-sm font-medium">Quản trị</span>}
+                    </Link>
+                    <Link
+                        to="/departments"
+                        onClick={() => setMobileOpen(false)}
+                        className={`
+                            flex items-center gap-3 px-3 py-2.5 rounded-md transition-all duration-200
+                            ${sidebarOpen ? 'justify-start' : 'justify-center'}
+                            ${location.pathname === '/departments'
+                                ? 'bg-primary-600 text-white dark:bg-secondary-500'
+                                : 'text-gray-600 dark:text-gray-400 hover:bg-primary-50 hover:text-primary-600 dark:hover:bg-gray-800 dark:hover:text-secondary-400'
+                            }
+                        `}
+                    >
+                        <Building2 className="w-5 h-5 flex-shrink-0" />
+                        {sidebarOpen && <span className="text-sm font-medium">Phòng ban</span>}
                     </Link>
                 </div>
             )}

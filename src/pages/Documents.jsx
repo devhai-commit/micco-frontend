@@ -3,7 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import {
     Upload, X, File, Image,
     ChevronDown, CheckCircle2,
-    ChevronLeft, ChevronRight, Trash2, Search
+    ChevronLeft, ChevronRight, Trash2, Search, Building2,
+    Lock, Globe
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { fileTypeIconMap, fileTypeColors, fileTypeBgColors } from '../components/documents/fileTypes';
@@ -22,6 +23,8 @@ export default function Documents() {
     const { authFetch } = useAuth();
     const navigate = useNavigate();
     const [documents, setDocuments] = useState([]);
+    const [departments, setDepartments] = useState([]);
+    const [selectedDeptId, setSelectedDeptId] = useState(null);
     const [view, setView] = useState('table');
     const [search, setSearch] = useState('');
     const [typeFilter, setTypeFilter] = useState('All');
@@ -33,13 +36,22 @@ export default function Documents() {
     const [uploadCategory, setUploadCategory] = useState('Tài liệu');
     const [uploadTags, setUploadTags] = useState('');
     const [uploadThumbnail, setUploadThumbnail] = useState(null);
+    const [uploadVisibility, setUploadVisibility] = useState('internal');
     const [stagedFiles, setStagedFiles] = useState([]);
     const [uploadSuccess, setUploadSuccess] = useState(false);
     const [openMenu, setOpenMenu] = useState(null);
     const [currentPage, setCurrentPage] = useState(1);
 
-    useEffect(() => { fetchDocuments(); }, [typeFilter, categoryFilter]);
-    useEffect(() => { setCurrentPage(1); }, [search, typeFilter, categoryFilter]);
+    // Fetch departments for filter tabs
+    useEffect(() => {
+        authFetch('/api/auth/departments')
+            .then(r => r.ok ? r.json() : [])
+            .then(setDepartments)
+            .catch(() => {});
+    }, []);
+
+    useEffect(() => { fetchDocuments(); }, [typeFilter, categoryFilter, selectedDeptId]);
+    useEffect(() => { setCurrentPage(1); }, [search, typeFilter, categoryFilter, selectedDeptId]);
 
     // Close dropdown when clicking outside
     useEffect(() => {
@@ -53,6 +65,7 @@ export default function Documents() {
             const params = new URLSearchParams();
             if (typeFilter !== 'All') params.append('type', typeFilter);
             if (categoryFilter !== 'All') params.append('category', categoryFilter);
+            if (selectedDeptId !== null) params.append('department_id', selectedDeptId);
             const qs = params.toString();
             const res = await authFetch(`/api/documents${qs ? '?' + qs : ''}`);
             if (res.ok) setDocuments(await res.json());
@@ -89,6 +102,7 @@ export default function Documents() {
             const formData = new FormData();
             for (const file of stagedFiles) formData.append('files', file);
             formData.append('category', uploadCategory);
+            formData.append('visibility', uploadVisibility);
             if (uploadTags.trim()) formData.append('tags', uploadTags.trim());
             if (uploadThumbnail) formData.append('thumbnail', uploadThumbnail);
             const res = await authFetch('/api/documents/upload', { method: 'POST', body: formData });
@@ -96,7 +110,7 @@ export default function Documents() {
                 await fetchDocuments();
                 setUploadSuccess(true);
                 setStagedFiles([]);
-                setTimeout(() => { setShowUpload(false); setUploadCategory('Tài liệu'); setUploadTags(''); setUploadThumbnail(null); setUploadSuccess(false); }, 1500);
+                setTimeout(() => { setShowUpload(false); setUploadCategory('Tài liệu'); setUploadTags(''); setUploadThumbnail(null); setUploadVisibility('internal'); setUploadSuccess(false); }, 1500);
             } else { const err = await res.json(); alert(err.detail || 'Upload failed'); }
         } catch (err) { console.error('Upload error:', err); alert('Upload failed. Please try again.'); }
         finally { setUploading(false); }
@@ -115,7 +129,7 @@ export default function Documents() {
     const handleFileInput = (e) => { stageFiles(e.target.files); e.target.value = ''; };
 
     const closeUploadPanel = () => {
-        setShowUpload(false); setStagedFiles([]); setUploadCategory('Tài liệu'); setUploadTags(''); setUploadThumbnail(null); setUploadSuccess(false);
+        setShowUpload(false); setStagedFiles([]); setUploadCategory('Tài liệu'); setUploadTags(''); setUploadThumbnail(null); setUploadVisibility('internal'); setUploadSuccess(false);
     };
 
     const handleDelete = async (id) => {
@@ -147,6 +161,39 @@ export default function Documents() {
                 { label: 'Tổng quan', href: '/dashboard' },
                 { label: 'Tài liệu' },
             ]} />
+
+            {/* ══════════════ Department Filter ══════════════ */}
+            {departments.length > 0 && (
+                <div className="bg-white dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-800 px-4 py-3">
+                    <div className="flex items-center gap-2 overflow-x-auto scrollbar-hide">
+                        <Building2 className="w-4 h-4 text-gray-400 flex-shrink-0" />
+                        <span className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider flex-shrink-0 mr-1">Phòng ban:</span>
+                        <button
+                            onClick={() => setSelectedDeptId(null)}
+                            className={`px-3 py-1.5 rounded-lg text-xs font-medium whitespace-nowrap transition-all ${
+                                selectedDeptId === null
+                                    ? 'bg-primary-600 text-white shadow-sm'
+                                    : 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700'
+                            }`}
+                        >
+                            Tất cả
+                        </button>
+                        {departments.map(dept => (
+                            <button
+                                key={dept.id}
+                                onClick={() => setSelectedDeptId(dept.id)}
+                                className={`px-3 py-1.5 rounded-lg text-xs font-medium whitespace-nowrap transition-all ${
+                                    selectedDeptId === dept.id
+                                        ? 'bg-primary-600 text-white shadow-sm'
+                                        : 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700'
+                                }`}
+                            >
+                                {dept.name}
+                            </button>
+                        ))}
+                    </div>
+                </div>
+            )}
 
             {/* ══════════════ All Documents ══════════════ */}
             <div className="bg-white dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-800 overflow-hidden">
@@ -244,6 +291,40 @@ export default function Documents() {
                                                         </select>
                                                         <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
                                                     </div>
+                                                </div>
+                                                <div>
+                                                    <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Chế độ hiển thị</label>
+                                                    <div className="flex gap-2">
+                                                        <button
+                                                            type="button"
+                                                            onClick={() => setUploadVisibility('internal')}
+                                                            className={`flex-1 flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl border-2 text-sm font-medium transition-all ${
+                                                                uploadVisibility === 'internal'
+                                                                    ? 'border-primary-600 bg-primary-600/5 text-primary-700 dark:text-primary-400 dark:border-primary-500 dark:bg-primary-500/10'
+                                                                    : 'border-gray-200 dark:border-gray-700 text-gray-500 dark:text-gray-400 hover:border-gray-300 dark:hover:border-gray-600'
+                                                            }`}
+                                                        >
+                                                            <Lock className="w-4 h-4" />
+                                                            Nội bộ
+                                                        </button>
+                                                        <button
+                                                            type="button"
+                                                            onClick={() => setUploadVisibility('public')}
+                                                            className={`flex-1 flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl border-2 text-sm font-medium transition-all ${
+                                                                uploadVisibility === 'public'
+                                                                    ? 'border-emerald-600 bg-emerald-600/5 text-emerald-700 dark:text-emerald-400 dark:border-emerald-500 dark:bg-emerald-500/10'
+                                                                    : 'border-gray-200 dark:border-gray-700 text-gray-500 dark:text-gray-400 hover:border-gray-300 dark:hover:border-gray-600'
+                                                            }`}
+                                                        >
+                                                            <Globe className="w-4 h-4" />
+                                                            Công khai
+                                                        </button>
+                                                    </div>
+                                                    <p className="text-xs text-gray-400 mt-1.5">
+                                                        {uploadVisibility === 'internal'
+                                                            ? 'Chỉ thành viên trong phòng ban mới xem được'
+                                                            : 'Tất cả tài khoản đều có thể xem'}
+                                                    </p>
                                                 </div>
                                                 <div>
                                                     <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Thẻ</label>

@@ -2,7 +2,9 @@ import { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
-import { User, Mail, Lock, Eye, EyeOff, ArrowRight, Sun, Moon, ShieldCheck } from 'lucide-react';
+import { User, Mail, Lock, Eye, EyeOff, ArrowRight, Sun, Moon, ShieldCheck, Building2 } from 'lucide-react';
+
+const API_BASE = (import.meta.env.VITE_API_BASE_URL || '') + '/api';
 
 // Async wrappers for auth that handle navigation and errors
 function useAuthHandlers() {
@@ -19,8 +21,8 @@ function useAuthHandlers() {
         }
     };
 
-    const handleRegister = async (name, email, password, setLoading, setError) => {
-        const result = await register(name, email, password);
+    const handleRegister = async (name, email, password, departmentId, setLoading, setError) => {
+        const result = await register(name, email, password, departmentId);
         if (result.success) {
             navigate('/dashboard');
         } else {
@@ -328,9 +330,18 @@ function SignUpForm({ onRegister, isDark, toggleTheme, onToggle, mobile }) {
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
+    const [departmentId, setDepartmentId] = useState('');
+    const [departments, setDepartments] = useState([]);
     const [agreeTerms, setAgreeTerms] = useState(false);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
+
+    useEffect(() => {
+        fetch(`${API_BASE}/auth/departments`)
+            .then(r => r.ok ? r.json() : [])
+            .then(setDepartments)
+            .catch(() => {});
+    }, []);
 
     const passwordsMatch = !confirmPassword || password === confirmPassword;
 
@@ -339,7 +350,7 @@ function SignUpForm({ onRegister, isDark, toggleTheme, onToggle, mobile }) {
         if (!passwordsMatch) return;
         setLoading(true);
         setError('');
-        onRegister(name, email, password, setLoading, setError);
+        onRegister(name, email, password, departmentId ? parseInt(departmentId) : null, setLoading, setError);
     };
 
     return (
@@ -367,7 +378,7 @@ function SignUpForm({ onRegister, isDark, toggleTheme, onToggle, mobile }) {
                         <User className="w-4 h-4 text-gray-400 group-focus-within:text-primary-600 dark:group-focus-within:text-primary-400 transition-colors" />
                     </div>
                     <input type="text" value={name} onChange={(e) => setName(e.target.value)}
-                        placeholder="Full Name"
+                        placeholder="Họ và tên"
                         className="w-full pl-16 pr-5 py-3 rounded-2xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/50 text-gray-900 dark:text-white placeholder-gray-400 outline-none focus:border-primary-600 focus:ring-2 focus:ring-primary-600/10 dark:focus:border-secondary-400 dark:focus:ring-secondary-400/10 transition-all text-sm"
                         required
                     />
@@ -379,10 +390,25 @@ function SignUpForm({ onRegister, isDark, toggleTheme, onToggle, mobile }) {
                         <Mail className="w-4 h-4 text-gray-400 group-focus-within:text-primary-600 dark:group-focus-within:text-primary-400 transition-colors" />
                     </div>
                     <input type="email" value={email} onChange={(e) => setEmail(e.target.value)}
-                        placeholder="Email Address"
+                        placeholder="Email"
                         className="w-full pl-16 pr-5 py-3 rounded-2xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/50 text-gray-900 dark:text-white placeholder-gray-400 outline-none focus:border-primary-600 focus:ring-2 focus:ring-primary-600/10 dark:focus:border-secondary-400 dark:focus:ring-secondary-400/10 transition-all text-sm"
                         required
                     />
+                </div>
+
+                {/* Department */}
+                <div className="relative group">
+                    <div className="absolute left-4 top-1/2 -translate-y-1/2 w-9 h-9 rounded-xl bg-gray-100 dark:bg-gray-800 flex items-center justify-center group-focus-within:bg-primary-600/10 dark:group-focus-within:bg-primary-600/20 transition-colors">
+                        <Building2 className="w-4 h-4 text-gray-400 group-focus-within:text-primary-600 dark:group-focus-within:text-primary-400 transition-colors" />
+                    </div>
+                    <select value={departmentId} onChange={(e) => setDepartmentId(e.target.value)}
+                        className="w-full pl-16 pr-5 py-3 rounded-2xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/50 text-gray-900 dark:text-white outline-none focus:border-primary-600 focus:ring-2 focus:ring-primary-600/10 dark:focus:border-secondary-400 dark:focus:ring-secondary-400/10 transition-all text-sm appearance-none cursor-pointer"
+                    >
+                        <option value="">-- Chọn phòng ban --</option>
+                        {departments.map(d => (
+                            <option key={d.id} value={d.id}>{d.name}</option>
+                        ))}
+                    </select>
                 </div>
 
                 {/* Password */}
@@ -391,7 +417,7 @@ function SignUpForm({ onRegister, isDark, toggleTheme, onToggle, mobile }) {
                         <Lock className="w-4 h-4 text-gray-400 group-focus-within:text-primary-600 dark:group-focus-within:text-primary-400 transition-colors" />
                     </div>
                     <input type={showPassword ? 'text' : 'password'} value={password} onChange={(e) => setPassword(e.target.value)}
-                        placeholder="Password"
+                        placeholder="Mật khẩu"
                         className="w-full pl-16 pr-20 py-3 rounded-2xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/50 text-gray-900 dark:text-white placeholder-gray-400 outline-none focus:border-primary-600 focus:ring-2 focus:ring-primary-600/10 dark:focus:border-secondary-400 dark:focus:ring-secondary-400/10 transition-all text-sm"
                         required minLength={6}
                     />
@@ -407,11 +433,11 @@ function SignUpForm({ onRegister, isDark, toggleTheme, onToggle, mobile }) {
                         <ShieldCheck className={`w-4 h-4 transition-colors ${!passwordsMatch ? 'text-red-500' : 'text-gray-400 group-focus-within:text-primary-600 dark:group-focus-within:text-primary-400'}`} />
                     </div>
                     <input type="password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)}
-                        placeholder="Confirm Password"
+                        placeholder="Xác nhận mật khẩu"
                         className={`w-full pl-16 pr-5 py-3 rounded-2xl border bg-gray-50 dark:bg-gray-800/50 text-gray-900 dark:text-white placeholder-gray-400 outline-none focus:ring-2 transition-all text-sm ${!passwordsMatch ? 'border-red-400 focus:border-red-500 focus:ring-red-500/10' : 'border-gray-200 dark:border-gray-700 focus:border-primary-600 focus:ring-primary-600/10 dark:focus:border-secondary-400 dark:focus:ring-secondary-400/10'}`}
                         required
                     />
-                    {!passwordsMatch && <p className="text-xs text-red-500 mt-1 ml-1 font-medium">Passwords do not match</p>}
+                    {!passwordsMatch && <p className="text-xs text-red-500 mt-1 ml-1 font-medium">Mật khẩu không khớp</p>}
                 </div>
 
                 {/* Terms */}
@@ -425,7 +451,7 @@ function SignUpForm({ onRegister, isDark, toggleTheme, onToggle, mobile }) {
                         )}
                     </div>
                     <span className="text-xs text-gray-500 dark:text-gray-400 leading-relaxed">
-                        I agree to the <a href="#" className="text-primary-600 dark:text-secondary-400 hover:underline font-medium">Terms</a> and <a href="#" className="text-primary-600 dark:text-secondary-400 hover:underline font-medium">Privacy Policy</a>
+                        Tôi đồng ý với <a href="#" className="text-primary-600 dark:text-secondary-400 hover:underline font-medium">Điều khoản</a> và <a href="#" className="text-primary-600 dark:text-secondary-400 hover:underline font-medium">Chính sách bảo mật</a>
                     </span>
                 </div>
 
@@ -436,14 +462,14 @@ function SignUpForm({ onRegister, isDark, toggleTheme, onToggle, mobile }) {
                     <div className="absolute inset-0 bg-white/10 translate-y-full group-hover:translate-y-0 transition-transform duration-500" />
                     {loading
                         ? <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin mx-auto" />
-                        : <span className="relative z-10 flex items-center justify-center gap-2">Create Account <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" /></span>
+                        : <span className="relative z-10 flex items-center justify-center gap-2">Tạo tài khoản <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" /></span>
                     }
                 </button>
 
                 {/* Divider */}
                 <div className="flex items-center gap-4">
                     <div className="flex-1 h-px bg-gray-200 dark:bg-gray-700" />
-                    <span className="text-xs text-gray-400 uppercase tracking-wider font-medium">Or</span>
+                    <span className="text-xs text-gray-400 uppercase tracking-wider font-medium">Hoặc</span>
                     <div className="flex-1 h-px bg-gray-200 dark:bg-gray-700" />
                 </div>
 
@@ -451,15 +477,15 @@ function SignUpForm({ onRegister, isDark, toggleTheme, onToggle, mobile }) {
                 <button type="button"
                     className="w-full py-3 rounded-2xl font-semibold text-sm text-gray-700 dark:text-gray-300 border-2 border-gray-200 dark:border-gray-700 hover:border-primary-600 dark:hover:border-secondary-400 hover:shadow-lg transition-all duration-300 flex items-center justify-center gap-3">
                     <GoogleIcon />
-                    Sign up with Google
+                    Đăng ký với Google
                 </button>
             </form>
 
             {/* Toggle (mobile only) */}
             {mobile && (
                 <p className="mt-5 text-center text-sm text-gray-500 dark:text-gray-400">
-                    Already have an account?{' '}
-                    <button onClick={onToggle} className="font-bold text-primary-600 dark:text-secondary-400 hover:underline">Sign In</button>
+                    Đã có tài khoản?{' '}
+                    <button onClick={onToggle} className="font-bold text-primary-600 dark:text-secondary-400 hover:underline">Đăng nhập</button>
                 </p>
             )}
         </div>

@@ -65,12 +65,14 @@ export function AuthProvider({ children }) {
         }
     };
 
-    const register = async (name, email, password) => {
+    const register = async (name, email, password, department_id = null) => {
         try {
+            const payload = { name, email, password };
+            if (department_id) payload.department_id = department_id;
             const res = await fetch(`${API_BASE}/auth/register`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ name, email, password }),
+                body: JSON.stringify(payload),
             });
 
             if (!res.ok) {

@@ -1,20 +1,35 @@
 import { useState, useEffect } from 'react';
 import { X, UserPlus, Eye, EyeOff } from 'lucide-react';
 
-const ROLES = ['All', 'Admin', 'Editor', 'Member', 'Viewer'];
+const ROLES = ['All', 'Admin', 'Trưởng phòng', 'Nhân viên'];
+const API_BASE = (import.meta.env.VITE_API_BASE_URL || '') + '/api';
 
 export { ROLES };
 
 export default function UserModal({ open, onClose, onSave, editUser }) {
-    const [form, setForm] = useState({ name: '', email: '', role: 'Member', password: '' });
+    const [form, setForm] = useState({ name: '', email: '', role: 'Nhân viên', password: '', department_id: '' });
     const [showPass, setShowPass] = useState(false);
     const [saving, setSaving] = useState(false);
+    const [departments, setDepartments] = useState([]);
+
+    useEffect(() => {
+        fetch(`${API_BASE}/auth/departments`)
+            .then(r => r.ok ? r.json() : [])
+            .then(setDepartments)
+            .catch(() => {});
+    }, []);
 
     useEffect(() => {
         if (editUser) {
-            setForm({ name: editUser.name, email: editUser.email, role: editUser.role, password: '' });
+            setForm({
+                name: editUser.name,
+                email: editUser.email,
+                role: editUser.role,
+                password: '',
+                department_id: editUser.department_id || '',
+            });
         } else {
-            setForm({ name: '', email: '', role: 'Member', password: '' });
+            setForm({ name: '', email: '', role: 'Nhân viên', password: '', department_id: '' });
         }
     }, [editUser, open]);
 
@@ -23,7 +38,13 @@ export default function UserModal({ open, onClose, onSave, editUser }) {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setSaving(true);
-        await onSave(form);
+        const payload = { ...form };
+        if (payload.department_id === '') {
+            payload.department_id = null;
+        } else {
+            payload.department_id = parseInt(payload.department_id);
+        }
+        await onSave(payload);
         setSaving(false);
     };
 
@@ -67,15 +88,28 @@ export default function UserModal({ open, onClose, onSave, editUser }) {
                             className="w-full px-3 py-2.5 text-sm rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white placeholder-slate-400 outline-none focus:ring-2 focus:ring-primary-600/30 focus:border-primary-600 transition-all"
                         />
                     </div>
-                    <div>
-                        <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1.5">Vai trò</label>
-                        <select
-                            value={form.role}
-                            onChange={e => setForm(f => ({ ...f, role: e.target.value }))}
-                            className="w-full px-3 py-2.5 text-sm rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white outline-none focus:ring-2 focus:ring-primary-600/30 focus:border-primary-600 transition-all appearance-none cursor-pointer"
-                        >
-                            {ROLES.filter(r => r !== 'All').map(r => <option key={r} value={r}>{r}</option>)}
-                        </select>
+                    <div className="grid grid-cols-2 gap-3">
+                        <div>
+                            <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1.5">Vai trò</label>
+                            <select
+                                value={form.role}
+                                onChange={e => setForm(f => ({ ...f, role: e.target.value }))}
+                                className="w-full px-3 py-2.5 text-sm rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white outline-none focus:ring-2 focus:ring-primary-600/30 focus:border-primary-600 transition-all appearance-none cursor-pointer"
+                            >
+                                {ROLES.filter(r => r !== 'All').map(r => <option key={r} value={r}>{r}</option>)}
+                            </select>
+                        </div>
+                        <div>
+                            <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1.5">Phòng ban</label>
+                            <select
+                                value={form.department_id}
+                                onChange={e => setForm(f => ({ ...f, department_id: e.target.value }))}
+                                className="w-full px-3 py-2.5 text-sm rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white outline-none focus:ring-2 focus:ring-primary-600/30 focus:border-primary-600 transition-all appearance-none cursor-pointer"
+                            >
+                                <option value="">-- Không --</option>
+                                {departments.map(d => <option key={d.id} value={d.id}>{d.name}</option>)}
+                            </select>
+                        </div>
                     </div>
                     {!editUser && (
                         <div>

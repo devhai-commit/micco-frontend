@@ -1,6 +1,6 @@
 import { useRef, useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
-import { File, Eye, Download, Share2, Trash2, MoreHorizontal } from 'lucide-react';
+import { File, Eye, Download, Share2, Trash2, MoreHorizontal, Clock, XCircle } from 'lucide-react';
 import { fileTypeIconMap, fileTypeColors, fileTypeBgColors } from './fileTypes';
 import { getExt, formatBytes, formatDate, getInitials, avatarColor, categoryColors, getCategoryLabel } from '../../utils/formatters';
 
@@ -74,9 +74,21 @@ export default function DocumentRow({ doc, openMenu, onToggleMenu, onView, onDow
                     <div className={`w-9 h-9 rounded-lg ${bgColor} flex items-center justify-center flex-shrink-0`}>
                         <Icon className={`w-4.5 h-4.5 ${iconColor}`} />
                     </div>
-                    <span className="text-sm font-medium text-gray-900 dark:text-white truncate max-w-[160px] lg:max-w-xs" title={doc.name}>
-                        {doc.name}
-                    </span>
+                    <div className="min-w-0">
+                        <span className="text-sm font-medium text-gray-900 dark:text-white truncate max-w-[160px] lg:max-w-xs block" title={doc.name}>
+                            {doc.name}
+                        </span>
+                        {doc.approval_status === 'pending_approval' && (
+                            <span className="inline-flex items-center gap-1 text-xs text-amber-600 dark:text-amber-400 mt-0.5">
+                                <Clock className="w-3 h-3" /> Chờ duyệt
+                            </span>
+                        )}
+                        {doc.approval_status === 'rejected' && (
+                            <span className="inline-flex items-center gap-1 text-xs text-red-500 dark:text-red-400 mt-0.5">
+                                <XCircle className="w-3 h-3" /> Từ chối
+                            </span>
+                        )}
+                    </div>
                 </div>
             </td>
             {/* Category */}
