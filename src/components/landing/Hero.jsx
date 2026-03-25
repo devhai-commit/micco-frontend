@@ -17,8 +17,8 @@ export default function Hero() {
                             <Shield className="w-5 h-5 text-accent-500" />
                         </div>
                         <div>
-                            <p className="text-sm font-semibold text-gray-900 dark:text-white">Encrypted</p>
-                            <p className="text-xs text-gray-500 dark:text-gray-400">256-bit AES</p>
+                            <p className="text-sm font-semibold text-gray-900 dark:text-white">Bảo mật</p>
+                            <p className="text-xs text-gray-500 dark:text-gray-400">Mã hóa 256-bit AES</p>
                         </div>
                     </div>
                 </div>
@@ -31,8 +31,8 @@ export default function Hero() {
                             <Sparkles className="w-5 h-5 text-secondary-500" />
                         </div>
                         <div>
-                            <p className="text-sm font-semibold text-gray-900 dark:text-white">AI Powered</p>
-                            <p className="text-xs text-gray-500 dark:text-gray-400">Smart Analysis</p>
+                            <p className="text-sm font-semibold text-gray-900 dark:text-white">Hỗ trợ AI</p>
+                            <p className="text-xs text-gray-500 dark:text-gray-400">Phân tích thông minh</p>
                         </div>
                     </div>
                 </div>
@@ -42,7 +42,7 @@ export default function Hero() {
                 <div className="glass rounded-2xl p-3 shadow-xl dark:glass-dark">
                     <div className="flex items-center gap-2">
                         <FileText className="w-5 h-5 text-primary-600 dark:text-primary-400" />
-                        <span className="text-sm font-medium text-gray-700 dark:text-gray-300">1,247 docs managed</span>
+                        <span className="text-sm font-medium text-gray-700 dark:text-gray-300">1.247 tài liệu đang quản lý</span>
                     </div>
                 </div>
             </div>
@@ -54,31 +54,31 @@ export default function Hero() {
                     <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary-600/10 dark:bg-primary-600/20 border border-primary-600/20 mb-8 animate-fade-in-up">
                         <Sparkles className="w-4 h-4 text-primary-600 dark:text-primary-400" />
                         <span className="text-sm font-medium text-primary-600 dark:text-primary-400">
-                            AI-Powered Document Intelligence
+                            Nền tảng quản lý tri thức thông minh
                         </span>
                     </div>
 
                     {/* Headline */}
                     <h1 className="text-5xl sm:text-6xl lg:text-7xl font-extrabold leading-tight text-gray-900 dark:text-white mb-6 animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
-                        Smart Document{' '}
-                        <span className="text-gradient">Management</span>{' '}
-                        Powered by AI
+                        Quản lý tài liệu{' '}
+                        <span className="text-gradient">thông minh</span>{' '}
+                        cùng AI
                     </h1>
 
                     {/* Subheadline */}
                     <p className="text-lg sm:text-xl text-gray-600 dark:text-gray-400 mb-10 max-w-xl leading-relaxed animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
-                        Store, organize, and instantly retrieve knowledge from your documents.
-                        Let AI transform how your team works with information.
+                        Lưu trữ, tổ chức và tra cứu tri thức từ tài liệu của bạn ngay lập tức.
+                        Để AI thay đổi cách nhóm bạn làm việc với thông tin.
                     </p>
 
                     {/* CTA Buttons */}
                     <div className="flex flex-wrap gap-4 animate-fade-in-up" style={{ animationDelay: '0.3s' }}>
                         <Link to="/register" className="btn-primary text-lg !px-8 !py-4 flex items-center gap-2 group">
-                            Get Started
+                            Bắt đầu ngay
                             <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                         </Link>
                         <Link to="/dashboard" className="btn-secondary text-lg !px-8 !py-4 dark:bg-gray-800 dark:text-white dark:border-gray-700 dark:hover:border-secondary-400">
-                            Try Demo
+                            Dùng thử
                         </Link>
                     </div>
 
@@ -92,8 +92,8 @@ export default function Hero() {
                             ))}
                         </div>
                         <div>
-                            <p className="text-sm font-semibold text-gray-900 dark:text-white">Trusted by 2,000+ teams</p>
-                            <p className="text-xs text-gray-500 dark:text-gray-400">Join leading enterprises worldwide</p>
+                            <p className="text-sm font-semibold text-gray-900 dark:text-white">Được tin dùng bởi 2.000+ nhóm</p>
+                            <p className="text-xs text-gray-500 dark:text-gray-400">Cùng các doanh nghiệp hàng đầu Việt Nam</p>
                         </div>
                     </div>
                 </div>

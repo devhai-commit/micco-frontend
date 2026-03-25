@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
-import { User, Mail, Lock, Eye, EyeOff, ArrowRight, Sun, Moon, ShieldCheck, Building2 } from 'lucide-react';
+import { User, Mail, Lock, ArrowRight, Sun, Moon, ShieldCheck, Building2 } from 'lucide-react';
 
 const API_BASE = (import.meta.env.VITE_API_BASE_URL || '') + '/api';
 
@@ -17,7 +17,7 @@ function useAuthHandlers() {
             navigate('/dashboard');
         } else {
             setLoading(false);
-            setError(result.error || 'Login failed');
+            setError(result.error || 'Đăng nhập thất bại');
         }
     };
 
@@ -27,7 +27,7 @@ function useAuthHandlers() {
             navigate('/dashboard');
         } else {
             setLoading(false);
-            setError(result.error || 'Registration failed');
+            setError(result.error || 'Đăng ký thất bại');
         }
     };
 
@@ -97,7 +97,7 @@ export default function AuthPage() {
                     {/* ── Form Panels (behind the overlay) ── */}
                     <div className="absolute inset-0 hidden lg:flex">
 
-                        {/* Sign In Form — left half */}
+                        {/* Đăng nhập — trái */}
                         <div className="w-1/2 flex items-center justify-center bg-white dark:bg-gray-900 p-8 sm:p-12">
                             <SignInForm
                                 onLogin={handleLogin}
@@ -107,7 +107,7 @@ export default function AuthPage() {
                             />
                         </div>
 
-                        {/* Sign Up Form — right half */}
+                        {/* Đăng ký — phải */}
                         <div className="w-1/2 flex items-center justify-center bg-white dark:bg-gray-900 p-8 sm:p-12">
                             <SignUpForm
                                 onRegister={handleRegister}
@@ -149,23 +149,23 @@ export default function AuthPage() {
                             >
                                 <h2 className="text-4xl font-extrabold text-white italic mb-3"
                                     style={{ textShadow: '0 4px 20px rgba(0,0,0,0.25)' }}>
-                                    {isSignUp ? 'WELCOME BACK' : 'JOIN US'}
+                                    {isSignUp ? 'CHÀO MỪNG TRỞ LẠI' : 'THAM GIA NGAY'}
                                 </h2>
                                 <p className="text-white/70 text-sm mb-8 max-w-xs mx-auto leading-relaxed">
                                     {isSignUp
-                                        ? 'Already have an account? Sign in to access your documents and AI assistant.'
-                                        : 'Create a free account and unlock AI-powered document management for your team.'}
+                                        ? 'Bạn đã có tài khoản? Đăng nhập để truy cập tài liệu và trợ lý AI của bạn.'
+                                        : 'Tạo tài khoản miễn phí và khám phá sức mạnh quản lý tài liệu thông minh cùng AI.'}
                                 </p>
                                 <button
                                     onClick={() => toggle(!isSignUp)}
                                     className="px-8 py-3 rounded-2xl border-2 border-white text-white font-bold text-sm tracking-wide hover:bg-white hover:text-[#1e3a8a] transition-all duration-300 active:scale-95"
                                 >
-                                    {isSignUp ? 'SIGN IN' : 'SIGN UP'}
+                                    {isSignUp ? 'ĐĂNG NHẬP' : 'ĐĂNG KÝ'}
                                 </button>
 
                                 {/* Feature tags */}
                                 <div className="flex flex-wrap gap-2 justify-center mt-8">
-                                    {['🔒 Encrypted', '🤖 AI-Powered', '⚡ Fast'].map((tag) => (
+                                    {['🔒 Bảo mật', '🤖 Hỗ trợ AI', '⚡ Nhanh chóng'].map((tag) => (
                                         <span key={tag} className="px-3 py-1.5 rounded-xl bg-white/10 text-white/70 text-xs font-medium backdrop-blur-sm border border-white/10">
                                             {tag}
                                         </span>
@@ -229,8 +229,8 @@ function SignInForm({ onLogin, isDark, toggleTheme, onToggle, mobile }) {
                 </button>
             )}
 
-            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-1">Sign in</h2>
-            <p className="text-gray-500 dark:text-gray-400 text-sm mb-4">Welcome back! Enter your credentials.</p>
+            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-1">Đăng nhập</h2>
+            <p className="text-gray-500 dark:text-gray-400 text-sm mb-4">Chào mừng trở lại! Nhập thông tin để tiếp tục.</p>
 
             {error && (
                 <div className="mb-4 px-4 py-3 rounded-xl bg-red-50 dark:bg-red-500/10 border border-red-200 dark:border-red-500/30 text-red-600 dark:text-red-400 text-sm font-medium">
@@ -245,7 +245,7 @@ function SignInForm({ onLogin, isDark, toggleTheme, onToggle, mobile }) {
                         <User className="w-4 h-4 text-gray-400 group-focus-within:text-primary-600 dark:group-focus-within:text-primary-400 transition-colors" />
                     </div>
                     <input type="email" value={email} onChange={(e) => setEmail(e.target.value)}
-                        placeholder="Email Address"
+                        placeholder="Địa chỉ Email"
                         className="w-full pl-16 pr-5 py-3.5 rounded-2xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/50 text-gray-900 dark:text-white placeholder-gray-400 outline-none focus:border-primary-600 focus:ring-2 focus:ring-primary-600/10 dark:focus:border-secondary-400 dark:focus:ring-secondary-400/10 transition-all text-sm"
                         required
                     />
@@ -257,13 +257,13 @@ function SignInForm({ onLogin, isDark, toggleTheme, onToggle, mobile }) {
                         <Lock className="w-4 h-4 text-gray-400 group-focus-within:text-primary-600 dark:group-focus-within:text-primary-400 transition-colors" />
                     </div>
                     <input type={showPassword ? 'text' : 'password'} value={password} onChange={(e) => setPassword(e.target.value)}
-                        placeholder="Password"
+                        placeholder="Mật khẩu"
                         className="w-full pl-16 pr-20 py-3.5 rounded-2xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/50 text-gray-900 dark:text-white placeholder-gray-400 outline-none focus:border-primary-600 focus:ring-2 focus:ring-primary-600/10 dark:focus:border-secondary-400 dark:focus:ring-secondary-400/10 transition-all text-sm"
                         required
                     />
                     <button type="button" onClick={() => setShowPassword(!showPassword)}
                         className="absolute right-4 top-1/2 -translate-y-1/2 px-2 py-1 text-xs font-bold tracking-wider text-gray-500 hover:text-primary-600 dark:hover:text-secondary-400 transition-colors uppercase">
-                        {showPassword ? 'HIDE' : 'SHOW'}
+                        {showPassword ? 'ẨN' : 'HIỆN'}
                     </button>
                 </div>
 
@@ -278,9 +278,9 @@ function SignInForm({ onLogin, isDark, toggleTheme, onToggle, mobile }) {
                                 </svg>
                             )}
                         </div>
-                        <span className="text-sm text-gray-600 dark:text-gray-400">Remember me</span>
+                        <span className="text-sm text-gray-600 dark:text-gray-400">Ghi nhớ đăng nhập</span>
                     </label>
-                    <a href="#" className="text-sm font-semibold text-primary-600 dark:text-secondary-400 hover:underline">Forgot?</a>
+                    <a href="#" className="text-sm font-semibold text-primary-600 dark:text-secondary-400 hover:underline">Quên mật khẩu?</a>
                 </div>
 
                 {/* Submit */}
@@ -290,14 +290,14 @@ function SignInForm({ onLogin, isDark, toggleTheme, onToggle, mobile }) {
                     <div className="absolute inset-0 bg-white/10 translate-y-full group-hover:translate-y-0 transition-transform duration-500" />
                     {loading
                         ? <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin mx-auto" />
-                        : <span className="relative z-10 flex items-center justify-center gap-2">Sign In <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" /></span>
+                        : <span className="relative z-10 flex items-center justify-center gap-2">Đăng nhập <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" /></span>
                     }
                 </button>
 
                 {/* Divider */}
                 <div className="flex items-center gap-4">
                     <div className="flex-1 h-px bg-gray-200 dark:bg-gray-700" />
-                    <span className="text-xs text-gray-400 uppercase tracking-wider font-medium">Or</span>
+                    <span className="text-xs text-gray-400 uppercase tracking-wider font-medium">Hoặc</span>
                     <div className="flex-1 h-px bg-gray-200 dark:bg-gray-700" />
                 </div>
 
@@ -305,15 +305,15 @@ function SignInForm({ onLogin, isDark, toggleTheme, onToggle, mobile }) {
                 <button type="button"
                     className="w-full py-3.5 rounded-2xl font-semibold text-sm text-gray-700 dark:text-gray-300 border-2 border-gray-200 dark:border-gray-700 hover:border-primary-600 dark:hover:border-secondary-400 hover:shadow-lg transition-all duration-300 flex items-center justify-center gap-3">
                     <GoogleIcon />
-                    Sign in with Google
+                    Đăng nhập với Google
                 </button>
             </form>
 
             {/* Toggle (mobile only) */}
             {mobile && (
                 <p className="mt-6 text-center text-sm text-gray-500 dark:text-gray-400">
-                    Don't have an account?{' '}
-                    <button onClick={onToggle} className="font-bold text-primary-600 dark:text-secondary-400 hover:underline">Sign Up</button>
+                    Chưa có tài khoản?{' '}
+                    <button onClick={onToggle} className="font-bold text-primary-600 dark:text-secondary-400 hover:underline">Đăng ký</button>
                 </p>
             )}
         </div>
@@ -362,8 +362,8 @@ function SignUpForm({ onRegister, isDark, toggleTheme, onToggle, mobile }) {
                 </button>
             )}
 
-            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-1">Sign up</h2>
-            <p className="text-gray-500 dark:text-gray-400 text-sm mb-4">Create your account to get started.</p>
+            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-1">Đăng ký</h2>
+            <p className="text-gray-500 dark:text-gray-400 text-sm mb-4">Tạo tài khoản để bắt đầu sử dụng.</p>
 
             {error && (
                 <div className="mb-4 px-4 py-3 rounded-xl bg-red-50 dark:bg-red-500/10 border border-red-200 dark:border-red-500/30 text-red-600 dark:text-red-400 text-sm font-medium">
@@ -390,7 +390,7 @@ function SignUpForm({ onRegister, isDark, toggleTheme, onToggle, mobile }) {
                         <Mail className="w-4 h-4 text-gray-400 group-focus-within:text-primary-600 dark:group-focus-within:text-primary-400 transition-colors" />
                     </div>
                     <input type="email" value={email} onChange={(e) => setEmail(e.target.value)}
-                        placeholder="Email"
+                        placeholder="Địa chỉ Email"
                         className="w-full pl-16 pr-5 py-3 rounded-2xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/50 text-gray-900 dark:text-white placeholder-gray-400 outline-none focus:border-primary-600 focus:ring-2 focus:ring-primary-600/10 dark:focus:border-secondary-400 dark:focus:ring-secondary-400/10 transition-all text-sm"
                         required
                     />
@@ -423,7 +423,7 @@ function SignUpForm({ onRegister, isDark, toggleTheme, onToggle, mobile }) {
                     />
                     <button type="button" onClick={() => setShowPassword(!showPassword)}
                         className="absolute right-4 top-1/2 -translate-y-1/2 px-2 py-1 text-xs font-bold tracking-wider text-gray-500 hover:text-primary-600 dark:hover:text-secondary-400 transition-colors uppercase">
-                        {showPassword ? 'HIDE' : 'SHOW'}
+                        {showPassword ? 'ẨN' : 'HIỆN'}
                     </button>
                 </div>
 
@@ -451,7 +451,7 @@ function SignUpForm({ onRegister, isDark, toggleTheme, onToggle, mobile }) {
                         )}
                     </div>
                     <span className="text-xs text-gray-500 dark:text-gray-400 leading-relaxed">
-                        Tôi đồng ý với <a href="#" className="text-primary-600 dark:text-secondary-400 hover:underline font-medium">Điều khoản</a> và <a href="#" className="text-primary-600 dark:text-secondary-400 hover:underline font-medium">Chính sách bảo mật</a>
+                        Tôi đồng ý với <a href="#" className="text-primary-600 dark:text-secondary-400 hover:underline font-medium">Điều khoản sử dụng</a> và <a href="#" className="text-primary-600 dark:text-secondary-400 hover:underline font-medium">Chính sách bảo mật</a>
                     </span>
                 </div>
 
